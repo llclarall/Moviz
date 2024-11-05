@@ -1,0 +1,32 @@
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+body {
+background: linear-gradient(to bottom, #380000, #000000);
+height: 100vh;
+margin: 0;
+}
+
+.accueil {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.accueil h1 {
+  color: white;
+  font-size: 10rem;
+  text-align: center;
+  font-family: "titre" ;
+  letter-spacing: 0.1em;
+}
+
+@font-face {
+    font-family: 'titre';
+    src: url('western_bang_bang/WesternBangBang-Regular.woff') format('woff2'),
+         url('western_bang_bang/WesternBangBang-Regular.woff2') format('woff');
+    font-style: normal;
+    font-weight: normal;
+}
