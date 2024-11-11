@@ -18,8 +18,16 @@ margin: 0;
 .accueil h1 {
   color: white;
   font-size: 10rem;
+  font-family: "titre", sans-serif;
+  letter-spacing: 0.1em;
+  font-weight: normal;
+}
+
+.accueil p {
+  color: white;
+  font-size: 10rem;
   text-align: center;
-  font-family: "titre" ;
+  font-family: "titre", sans-serif;
   letter-spacing: 0.1em;
 }
 
@@ -27,6 +35,4 @@ margin: 0;
     font-family: 'titre';
     src: url('western_bang_bang/WesternBangBang-Regular.woff') format('woff2'),
          url('western_bang_bang/WesternBangBang-Regular.woff2') format('woff');
-    font-style: normal;
-    font-weight: normal;
 }
