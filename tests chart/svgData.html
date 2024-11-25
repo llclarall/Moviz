@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphique svg</title>
+    <title>Graphique SVG</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
         }
 
         .bar {
-            fill: #333;
+            fill: #746e67;
         }
 
         .cassette-body {
@@ -30,7 +30,7 @@
             fill: #333;
             font-size: 12px;
             font-weight: bold;
-            text-anchor: middle;                       
+            text-anchor: middle;
         }
 
         .cassette-etiquette {
@@ -66,143 +66,126 @@
         Cliquez sur une barre pour voir les infos du film.
     </div>
 
-    <svg id="barChart" width="1000" height="500">
+    <svg id="barChart" width="920" height="550">
         <!-- Les axes restent fixes -->
-        <line x1="100" y1="400" x2="950" y2="400" class="axis-line"></line> <!-- axe x -->
-        <line x1="950" y1="400" x2="970" y2="400" class="axis-line"></line> <!-- flèche axe x -->
-        <polygon points="970,400 960,395 960,405" fill="#ffffff"></polygon> <!-- triangle pour la flèche -->
-        <line x1="100" y1="50" x2="100" y2="400" class="axis-line"></line> <!-- axe y -->
-        <text x="100" y="420" class="axis-label">0</text>
-        <text x="300" y="420" class="axis-label">300M</text>
-        <text x="500" y="420" class="axis-label">600M</text>
-        <text x="700" y="420" class="axis-label">900M</text>
-        <text x="900" y="420" class="axis-label">1100M</text>
-        <text x="350" y="450" class="axis-label">Revenus bruts (en $)</text>
+        <line x1="10" y1="500" x2="900" y2="500" class="axis-line"></line> <!-- axe x -->
+        <line x1="900" y1="500" x2="900" y2="500" class="axis-line"></line> <!-- flèche axe x -->
+        <polygon points="910,500 900,495 900,505" fill="#ffffff"></polygon> <!-- triangle pour la flèche -->
+        <line x1="10" y1="50" x2="10" y2="500" class="axis-line"></line> <!-- axe y -->
+        <text x="10" y="520" class="axis-label">0</text>
+        <text x="210" y="520" class="axis-label">250M</text>
+        <text x="410" y="520" class="axis-label">500M</text>
+        <text x="610" y="520" class="axis-label">750M</text>
+        <text x="810" y="520" class="axis-label">1000M</text>
+        <text x="350" y="550" class="axis-label">Revenus bruts (en $)</text>
     </svg>
 
     <script>
-
-        fetch('./filmsDataEnriched.json') // Ajoute "./" pour indiquer le dossier courant
-
-        // Étape 1 : Fonction pour afficher les infos sur le film
+        // Fonction pour afficher les infos du film
         function showInfo(film) {
             const infoBox = document.getElementById('info-box');
             infoBox.innerHTML = `<strong>${film.title}</strong><br>Revenus bruts : ${film.boxOffice} $`;
         }
-    
-        // Étape 2 : Chargement des données et génération dynamique des éléments SVG
-        fetch('filmsDataEnriched.json')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors du chargement des données.');
-        }
-        return response.json();
-    })
-    .then(films => {
-        const svg = document.getElementById('barChart');
-        let yPosition = 90; // Position initiale verticale
 
-        films.forEach((film) => {
-            // Nettoyer et convertir les revenus en nombre
-            const cleanedBoxOffice = film.boxOffice.replace(/,/g, ''); // Supprimer les virgules
-            const boxOfficeValue = Number(cleanedBoxOffice); // Convertir en nombre
-
-            // Vérifier si la valeur est valide
-            if (isNaN(boxOfficeValue)) {
-                console.warn(`Revenus invalides pour le film : ${film.title}`);
-                return; // Passer au film suivant si la valeur est invalide
-            }
-
-            // Calculer la largeur de la barre uniquement si la valeur est valide
-            const barWidth = boxOfficeValue / 1000000; // Échelle pour adapter les revenus
-            const cassetteWidth = 150; // Largeur de la cassette
-
-            // Créer la barre principale
-            const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            bar.setAttribute("x", 150);
-            bar.setAttribute("y", yPosition);
-            bar.setAttribute("width", barWidth); // Largeur de la barre
-            bar.setAttribute("height", 25);
-            bar.setAttribute("class", "bar");
-            bar.setAttribute("rx", "3");
-            bar.addEventListener("click", () => showInfo(film)); // Ajouter un gestionnaire d'événement
-            svg.appendChild(bar);
-
-            console.log(`Film : ${film.title}, Box Office : ${boxOfficeValue}, Bar Width : ${barWidth}`);
-
-
-                // (Continue avec la création des autres éléments comme les stripes, cassettes, etc.)
-            });
-
-    
-                    // Ajouter les rectangles alternés (pellicule) à l'intérieur de la barre
-                    const stripeHeight = 15;
-                    const stripeWidth = 10;
-                    const gap = 5; // Espace entre chaque rectangle
-
-                    for (let i = 0; i < Math.floor(barWidth / (stripeWidth + gap)); i++) {
-                    const stripe = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                    stripe.setAttribute("x", 150 + i * (stripeWidth + gap)); // Position horizontale
-                    stripe.setAttribute("y", yPosition + 5); // Décalage vertical
-                    stripe.setAttribute("width", stripeWidth); // Largeur de la stripe
-                    stripe.setAttribute("height", stripeHeight); // Hauteur
-                    stripe.setAttribute("rx", "2"); // Coins arrondis
-                    stripe.setAttribute("fill", "#c8c3b4"); // Couleur
-                    svg.appendChild(stripe);
+        // Charger les données depuis le fichier JSON
+        fetch('./filmsDataEnriched.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors du chargement des données.');
                 }
+                return response.json();
+            })
+            .then(films => {
+                const svg = document.getElementById('barChart');
+                let yPosition = 70; // Position verticale initiale
 
-                    console.log(`Film : ${film.title}, Box Office : ${film.boxOffice}`);
+                films.forEach(film => {
+                    // Nettoyer et convertir les revenus en nombre
+                    const cleanedBoxOffice = film.boxOffice.replace(/,/g, '');
+                    const boxOfficeValue = Number(cleanedBoxOffice);
 
-                    // Créer la cassette
+                    // Vérifier si la valeur est valide
+                    if (isNaN(boxOfficeValue)) {
+                        console.warn(`Revenus invalides pour le film : ${film.title}`);
+                        return;
+                    }
+
+                    // Calculer les dimensions
+                    const barWidth = boxOfficeValue / 1250000;
+                    
+                    // Barre principale
+                    const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                    bar.setAttribute("x", 15);
+                    bar.setAttribute("y", yPosition);
+                    bar.setAttribute("width", barWidth);
+                    bar.setAttribute("height", 33);
+                    bar.setAttribute("class", "bar");
+                    bar.addEventListener("click", () => showInfo(film));
+                    svg.appendChild(bar);
+                    
+                    // Ajouter les stripes à la barre
+                    const stripeHeight = 22;
+                    const stripeWidth = 10;
+                    const gap = 6;
+                    
+                    for (let i = 0; i < Math.floor(barWidth / (stripeWidth + gap)); i++) {
+                        const stripe = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                        stripe.setAttribute("x", 25 + i * (stripeWidth + gap));
+                        stripe.setAttribute("y", yPosition + 5);
+                        stripe.setAttribute("width", stripeWidth);
+                        stripe.setAttribute("height", stripeHeight);
+                        stripe.setAttribute("fill", "#c8c3b4");
+                        svg.appendChild(stripe);
+                    }
+
+                    const cassetteWidth = 200;
+                    
+                    // Ajouter la cassette
                     const cassette = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                    cassette.setAttribute("x", 100);
+                    cassette.setAttribute("x", 10);
                     cassette.setAttribute("y", yPosition - 5);
                     cassette.setAttribute("width", cassetteWidth);
-                    cassette.setAttribute("height", 35);
+                    cassette.setAttribute("height", 45);
                     cassette.setAttribute("class", "cassette-body");
                     svg.appendChild(cassette);
-    
+
                     // Lignes de détail de la cassette
                     for (let i = 0; i < 2; i++) {
                         const detail = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                        detail.setAttribute("x", 107 + i * 125);
+                        detail.setAttribute("x", 16 + i * 173);
                         detail.setAttribute("y", yPosition + 4);
-                        detail.setAttribute("width", 10);
-                        detail.setAttribute("height", 18);
+                        detail.setAttribute("width", 15);
+                        detail.setAttribute("height", 28);
                         detail.setAttribute("rx", "2");
                         detail.setAttribute("class", "cassette-detail");
                         svg.appendChild(detail);
                     }
-    
-                    // Etiquette centrale sur la cassette
+
+                    // Etiquette de la cassette
                     const middleDetail = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                    middleDetail.setAttribute("x", 125);
-                    middleDetail.setAttribute("y", yPosition);
-                    middleDetail.setAttribute("width", 100);
-                    middleDetail.setAttribute("height", 25);
+                    middleDetail.setAttribute("x", 40);
+                    middleDetail.setAttribute("y", yPosition + 2);
+                    middleDetail.setAttribute("width", 140);
+                    middleDetail.setAttribute("height", 32);
                     middleDetail.setAttribute("class", "cassette-etiquette");
-                    middleDetail.setAttribute("rx", "4");
                     svg.appendChild(middleDetail);
-    
-                    // Ajouter le label de la cassette
+
+                    // Ajouter le texte de la cassette
                     const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                    label.setAttribute("x", 175);
-                    label.setAttribute("y", yPosition + 16);
+                    label.setAttribute("x", 110);
+                    label.setAttribute("y", yPosition + 22);
                     label.setAttribute("class", "cassette-label");
                     label.textContent = film.title;
                     svg.appendChild(label);
-    
-                    // Augmenter la position verticale pour le prochain élément
-                    yPosition += 70;
-                })
-        
 
+                    // Augmenter la position verticale pour le prochain film
+                    yPosition += 90;
+                });
+            })
             .catch(error => {
                 console.error('Erreur lors du chargement ou du traitement des données :', error);
             });
     </script>
-    
 
 </body>
-
 </html>
