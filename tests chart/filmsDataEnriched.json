@@ -1,0 +1,62 @@
+[
+  {
+    "imdb": "tt0499549",
+    "title": "Avatar",
+    "director": "James Cameron",
+    "plot": "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+    "releaseDate": "18 Dec 2009",
+    "genre": "Action, Adventure, Fantasy",
+    "boxOffice": "785221649",
+    "IMDBratings": "7.9/10",
+    "poster": "https://fr.web.img2.acsta.net/c_310_420/pictures/22/08/25/09/04/2146702.jpg",
+    "trailer": "https://player.allocine.fr/19597838.html"
+  },
+  {
+    "imdb": "tt4154796",
+    "title": "Avengers: Endgame",
+    "director": "Anthony Russo, Joe Russo",
+    "plot": "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+    "releaseDate": "26 Apr 2019",
+    "genre": "Action, Adventure, Drama",
+    "boxOffice": "858373000",
+    "IMDBratings": "8.4/10",
+    "poster": "https://fr.web.img6.acsta.net/c_310_420/pictures/19/04/04/09/04/0472053.jpg",
+    "trailer": "https://player.allocine.fr/19583315.html"
+  },
+  {
+    "imdb": "tt1630029",
+    "title": "Avatar: The Way of Water",
+    "director": "James Cameron",
+    "plot": "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their home.",
+    "releaseDate": "16 Dec 2022",
+    "genre": "Action, Adventure, Fantasy",
+    "boxOffice": "684075767",
+    "IMDBratings": "7.5/10",
+    "poster": "https://fr.web.img2.acsta.net/c_310_420/pictures/22/11/02/14/49/4565071.jpg",
+    "trailer": "https://player.allocine.fr/19598673.html"
+  },
+  {
+    "imdb": "tt0120338",
+    "title": "Titanic",
+    "director": "James Cameron",
+    "plot": "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+    "releaseDate": "19 Dec 1997",
+    "genre": "Drama, Romance",
+    "boxOffice": "674292608",
+    "IMDBratings": "7.9/10",
+    "poster": "https://fr.web.img6.acsta.net/c_310_420/pictures/23/01/10/16/06/0622119.jpg",
+    "trailer": "https://player.allocine.fr/19456468.html"
+  },
+  {
+    "imdb": "tt2488496",
+    "title": "Star Wars: Episode VII - The Force Awakens",
+    "director": "J.J. Abrams",
+    "plot": "As a new threat to the galaxy rises, Rey, a desert scavenger, and Finn, an ex-stormtrooper, must join Han Solo and Chewbacca to search for the one hope of restoring peace.",
+    "releaseDate": "18 Dec 2015",
+    "genre": "Action, Adventure, Sci-Fi",
+    "boxOffice": "936662225",
+    "IMDBratings": "7.8/10",
+    "poster": "https://fr.web.img2.acsta.net/c_310_420/pictures/15/10/18/18/56/052074.jpg",
+    "trailer": "https://player.allocine.fr/19558259.html"
+  }
+]

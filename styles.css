@@ -22,8 +22,14 @@ html::-webkit-scrollbar {
          url('polices/western_bang_bang/WesternBangBang-Regular.woff2') format('woff');
 }
 
+@font-face {
+    font-family: 'sous-titre';
+    src: url('polices/old_press/OldPress.ttf'),
+}
+
 body {
   background: linear-gradient(to bottom, var(--rouge-foncé), #000000);
+  margin: 0;
 }
 
 .accueil {
@@ -31,7 +37,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url(images/title.svg);
+  background-image: url(images/ticket2.svg);
   background-size: 2300px;
   background-repeat: no-repeat;
   background-position: center;
@@ -39,7 +45,7 @@ body {
 
 .accueil h1 {
   color: var(--rouge-foncé);
-  font-size: 12rem;
+  font-size: 14.5rem;
   font-family: "titre", sans-serif;
   letter-spacing: 0.05em;
   font-weight: normal;
@@ -52,11 +58,11 @@ body {
   align-items: center;
   flex-direction: column;
   position: relative;
-  bottom: 100px;
+  bottom: 90px;
 }
 
 .accueil p {
-  font-size: 3.5rem;
+  font-size: 4rem;
   text-align: center;
   font-family: "titre", sans-serif;
   letter-spacing: 0.05em;
@@ -68,3 +74,95 @@ body {
   padding: 0;
   width: 120px;
 }
+
+@media (width<1400px) {
+  .accueil {
+    background-size: 1800px;
+  }
+  .accueil h1 {
+    font-size: 12rem;
+  }
+  .accueil p {
+    font-size: 3rem;
+  }
+  .accueil .logo {
+    width: 100px;
+  }
+  .accueil .titre {
+    bottom: 75px;
+  }
+}
+
+@media (width<1050px) {
+  .accueil {
+    background-size: 1600px;
+  }
+  .accueil h1 {
+    font-size: 9.5rem;
+  }
+  .accueil .logo {
+    width: 80px;
+  }
+  .accueil .titre {
+    bottom: 65px;
+  }
+}
+
+@media (width<900px) {
+  .accueil {
+    background-size: 1400px;
+  }
+  .accueil h1 {
+    font-size: 8rem;
+  }
+  .accueil p {
+    font-size: 2.5rem;
+  }
+  .accueil .logo {
+    width: 70px;
+  }
+  .accueil .titre {
+    bottom: 55px;
+  }
+}
+
+@media (width<670px) {
+  .accueil {
+    background-size: 1000px;
+  }
+  .accueil h1 {
+    font-size: 5.5rem;
+  }
+  .accueil p {
+    font-size: 1.8rem;
+  }
+  .accueil .logo {
+    width: 55px;
+  }
+  .accueil .titre {
+    bottom: 45px;
+  }
+}
+
+
+/* section graphique n1 */
+
+h2 {
+  color: white;
+  font-size: 6rem;
+  font-family: "sous-titre", sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.graph1 {
+  padding: 0 10rem;
+}
+
+.graph1 h2 {
+  margin-top: 0;
+}
+
+
+

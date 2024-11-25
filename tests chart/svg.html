@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique svg</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #333;
+        }
+
+        .bar {
+            fill: #333;
+        }
+
+        .cassette-body {
+            fill: #746e67;
+            stroke: #252525;
+            stroke-width: 1.5px;
+        }
+
+        .cassette-detail {
+            fill: #c8c3b4;
+        }
+
+        .cassette-label {
+            fill: #333;
+            font-size: 12px;
+            font-weight: bold;
+            text-anchor: middle;                       
+        }
+
+        .cassette-etiquette {
+            fill: #f8f4e9;
+        }
+
+        .axis-line {
+            stroke: #ffffff;
+            stroke-width: 2;
+        }
+
+        .axis-label {
+            fill: #ffffff;
+            font-size: 12px;
+        }
+
+        #info-box {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="info-box">
+        <strong>Informations sur le film</strong><br>
+        Cliquez sur une barre pour voir les infos du film.
+    </div>
+
+    <svg id="barChart" width="800" height="500">
+        <!-- Les axes restent fixes -->
+        <line x1="100" y1="400" x2="700" y2="400" class="axis-line"></line>
+        <line x1="100" y1="50" x2="100" y2="400" class="axis-line"></line>
+        <text x="100" y="420" class="axis-label">0</text>
+        <text x="300" y="420" class="axis-label">200</text>
+        <text x="500" y="420" class="axis-label">400</text>
+        <text x="700" y="420" class="axis-label">600</text>
+        <text x="350" y="450" class="axis-label">Revenus bruts</text>
+    </svg>
+
+    <script>
+        // Étape 2 : Fonction pour afficher les infos sur le film
+        function showInfo(film) {
+            const infoBox = document.getElementById('info-box');
+            infoBox.innerHTML = `<strong>${film.title}</strong><br>Revenus bruts : ${film.revenue} M€`;
+        }
+
+        // Étape 3 : Données dynamiques (Exemple ici, mais cela peut venir d'une API)
+        const films = [
+            { title: "Film 1", revenue: 350 },
+            { title: "Film 2", revenue: 150 },
+            { title: "Film 3", revenue: 250 },
+            { title: "Film 4", revenue: 500 }
+        ];
+        fetch('dataenrichies.json')
+            .then(response => response.json())
+        // Étape 4 : Génération dynamique des éléments SVG
+// Génération dynamique des éléments SVG
+const svg = document.getElementById('barChart');
+let yPosition = 90; // Position initiale verticale
+
+films.forEach((film) => {
+    const barWidth = film.revenue * 1.2; // Échelle pour adapter les revenus
+    const cassetteWidth = 150; // Largeur de la cassette
+
+    // Créer la barre principale
+    const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    bar.setAttribute("x", 150);
+    bar.setAttribute("y", yPosition);
+    bar.setAttribute("width", barWidth);
+    bar.setAttribute("height", 25);
+    bar.setAttribute("class", "bar");
+    bar.setAttribute("rx", "3");
+    bar.setAttribute("onclick", `showInfo(${JSON.stringify(film)})`);
+    svg.appendChild(bar);
+
+    // Ajouter les rectangles alternés (pellicule) à l'intérieur de la barre
+    const stripeHeight = 15;
+    const stripeWidth = 10;
+    const gap = 5; // Espace entre chaque rectangle
+    for (let i = 0; i < barWidth / (stripeWidth + gap); i++) {
+        const stripe = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        stripe.setAttribute("x", 150 + i * (stripeWidth + gap)); // Position horizontale du rectangle
+        stripe.setAttribute("y", yPosition + 5); // Décalage vertical à l'intérieur de la barre
+        stripe.setAttribute("width", stripeWidth); // Largeur du rectangle
+        stripe.setAttribute("height", stripeHeight); // Hauteur du rectangle
+        stripe.setAttribute("rx", "2"); // Coins arrondis
+        stripe.setAttribute("fill", "#c8c3b4"); // Gris clair
+        svg.appendChild(stripe);
+    }
+
+    // Créer la cassette
+    const cassette = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    cassette.setAttribute("x", 100);
+    cassette.setAttribute("y", yPosition - 5);
+    cassette.setAttribute("width", cassetteWidth);
+    cassette.setAttribute("height", 35);
+    cassette.setAttribute("class", "cassette-body");
+    svg.appendChild(cassette);
+
+    // Lignes de détail de la cassette
+    for (let i = 0; i < 2; i++) {
+        const detail = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        detail.setAttribute("x", 107 + i * 125);
+        detail.setAttribute("y", yPosition + 4);
+        detail.setAttribute("width", 10);
+        detail.setAttribute("height", 18);
+        detail.setAttribute("rx", "2");
+        detail.setAttribute("class", "cassette-detail");
+        svg.appendChild(detail);
+    }
+
+    // Etiquette centrale sur la cassette
+    const middleDetail = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    middleDetail.setAttribute("x", 125);
+    middleDetail.setAttribute("y", yPosition);
+    middleDetail.setAttribute("width", 100);
+    middleDetail.setAttribute("height", 25);
+    middleDetail.setAttribute("class", "cassette-etiquette");
+    middleDetail.setAttribute("rx", "4");
+    svg.appendChild(middleDetail);
+
+    // Ajouter le label de la cassette
+    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    label.setAttribute("x", 175);
+    label.setAttribute("y", yPosition + 16);
+    label.setAttribute("class", "cassette-label");
+    label.textContent = film.title;
+    svg.appendChild(label);
+
+    // Augmenter la position verticale pour le prochain élément
+    yPosition += 80;
+});
+
+    </script>
+
+</body>
+
+</html>

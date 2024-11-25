@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique chartJS</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f4f4e8;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+        }
+
+        canvas {
+            max-width: 700px;
+            max-height: 600px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        #infoPanel {
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #infoPanel h3 {
+            margin: 0 0 10px;
+        }
+
+        #infoPanel p {
+            margin: 5px 0;
+        }
+
+        .chart {
+            display: flex;
+            flex-direction: row;
+         /*    justify-content: center; */
+            align-items: center;
+            gap: 3rem;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="chart">
+
+        <canvas id="barChart" width="700" height="600"></canvas>
+
+        <div id="infoPanel">
+            <h3>Informations sur le film</h3>
+            <p id="filmName">Cliquez sur une barre pour voir les infos du film.</p>
+            <p id="filmRevenue"></p>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('barChart').getContext('2d');
+
+        const data = [
+            { film: 'Film 1', revenu: 300, description: 'Une aventure épique', year: 2020 },
+            { film: 'Film 2', revenu: 150, description: 'Une comédie romantique', year: 2019 },
+            { film: 'Film 3', revenu: 200, description: 'Un thriller haletant', year: 2021 },
+            { film: 'Film 4', revenu: 400, description: 'Un drame captivant', year: 2022 },
+        ];
+
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(d => d.film),
+                datasets: [{
+                    label: 'Revenus bruts',
+                    data: data.map(d => d.revenu),
+                    backgroundColor: '#333333',
+                    borderRadius: 5,
+                    barThickness: 30,
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Revenus bruts (en millions €)' },
+                        ticks: { color: '#333' },
+                    },
+                    y: {
+                        ticks: { color: '#333' },
+                    },
+                },
+                onClick: function (event, activeElements) {
+                    if (activeElements.length > 0) {
+                        const index = activeElements[0].index;
+                        const selectedFilm = data[index];
+
+                        // Afficher les informations du film à côté du graphique
+                        document.getElementById('filmName').textContent = `Film: ${selectedFilm.film}`;
+                        document.getElementById('filmRevenue').textContent = `Revenu: ${selectedFilm.revenu} millions €`;
+                    }
+                }
+            },
+            plugins: [{
+                id: 'cassettePlugin',
+                afterDatasetDraw(chart) {
+                    const { ctx, chartArea, scales } = chart;
+                    const dataset = chart.data.datasets[0];
+
+                    dataset.data.forEach((value, index) => {
+                        const barX = scales.x.getPixelForValue(0); // Début de la barre
+                        const barY = scales.y.getPixelForValue(index) - scales.y.getPixelForTick(1) / 2; // Centrage sur la barre
+
+                        const cassetteWidth = 150;
+                        const cassetteHeight = 40;
+
+                        // Position de la cassette (juste avant la barre)
+                        const cassetteX = barX;
+                        const cassetteY = barY + cassetteHeight + 45;
+
+                        // Dessiner une cassette
+                        ctx.save();
+                        ctx.fillStyle = '#cccccc';
+                        ctx.fillRect(cassetteX, cassetteY, cassetteWidth, cassetteHeight); // Rectangle principal
+
+                        ctx.fillStyle = '#666666';
+                        ctx.fillRect(cassetteX + 25, cassetteY + 5, cassetteWidth - 50, cassetteHeight - 10); // Partie intérieure
+
+                        ctx.strokeStyle = '#333333';
+                        ctx.strokeRect(cassetteX, cassetteY, cassetteWidth, cassetteHeight); // Contour
+
+                        // Ajouter le texte du film
+                        ctx.font = '14px Arial';
+                        ctx.fillStyle = '#000';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(chart.data.labels[index], cassetteX + cassetteWidth / 2, cassetteY + cassetteHeight / 2);
+
+                        ctx.restore();
+                    });
+                }
+            }]
+        });
+    </script>
+</body>
+
+</html>
