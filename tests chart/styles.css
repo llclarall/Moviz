@@ -1,0 +1,55 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #333;
+}
+
+.bar {
+    fill: #746e67;
+}
+
+.cassette-body {
+    fill: #746e67;
+    stroke: #252525;
+    stroke-width: 1.5px;
+}
+
+.cassette-detail {
+    fill: #c8c3b4;
+}
+
+.cassette-label {
+    fill: #333;
+    font-size: 12px;
+    font-weight: bold;
+    text-anchor: middle;
+}
+
+.cassette-etiquette {
+    fill: #f8f4e9;
+}
+
+.axis-line {
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
+.axis-label {
+    fill: #ffffff;
+    font-size: 12px;
+}
+
+#info-box {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
