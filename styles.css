@@ -38,18 +38,19 @@ body {
   align-items: center;
   height: 100vh;
   background-image: url(images/ticket2.svg);
-  background-size: 2300px;
+  background-size: 150%;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .accueil h1 {
   color: var(--rouge-foncé);
-  font-size: 14.5rem;
+  font-size: 14.5vw;
   font-family: "titre", sans-serif;
   letter-spacing: 0.05em;
   font-weight: normal;
   margin: 0;
+  padding: 0;
 }
 
 .accueil .titre {
@@ -58,98 +59,33 @@ body {
   align-items: center;
   flex-direction: column;
   position: relative;
-  bottom: 90px;
+  bottom: 4vw;
 }
 
 .accueil p {
-  font-size: 4rem;
+  font-size: 4vw;
   text-align: center;
   font-family: "titre", sans-serif;
   letter-spacing: 0.05em;
   margin: 0;
+  padding: 0;
+  position: relative;
+  bottom: 15px;
 }
 
 .accueil .logo {
   margin: 0;
   padding: 0;
-  width: 120px;
+  width: 25%;
 }
 
-@media (width<1400px) {
-  .accueil {
-    background-size: 1800px;
-  }
-  .accueil h1 {
-    font-size: 12rem;
-  }
-  .accueil p {
-    font-size: 3rem;
-  }
-  .accueil .logo {
-    width: 100px;
-  }
-  .accueil .titre {
-    bottom: 75px;
-  }
-}
-
-@media (width<1050px) {
-  .accueil {
-    background-size: 1600px;
-  }
-  .accueil h1 {
-    font-size: 9.5rem;
-  }
-  .accueil .logo {
-    width: 80px;
-  }
-  .accueil .titre {
-    bottom: 65px;
-  }
-}
-
-@media (width<900px) {
-  .accueil {
-    background-size: 1400px;
-  }
-  .accueil h1 {
-    font-size: 8rem;
-  }
-  .accueil p {
-    font-size: 2.5rem;
-  }
-  .accueil .logo {
-    width: 70px;
-  }
-  .accueil .titre {
-    bottom: 55px;
-  }
-}
-
-@media (width<670px) {
-  .accueil {
-    background-size: 1000px;
-  }
-  .accueil h1 {
-    font-size: 5.5rem;
-  }
-  .accueil p {
-    font-size: 1.8rem;
-  }
-  .accueil .logo {
-    width: 55px;
-  }
-  .accueil .titre {
-    bottom: 45px;
-  }
-}
 
 
 /* section graphique n1 */
 
 h2 {
   color: white;
-  font-size: 6rem;
+  font-size: 6vw;
   font-family: "sous-titre", sans-serif;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -157,12 +93,152 @@ h2 {
 }
 
 .graph1 {
-  padding: 0 10rem;
+  padding: 2rem 10vw;
 }
 
 .graph1 h2 {
-  margin-top: 0;
+  margin: 0;
+}
+
+.bar {
+  fill: #4e2825;
+}
+
+.cassette-body {
+  fill: #8d453a;
+  stroke: #252525;
+  stroke-width: 1.5px;
+}
+
+.cassette-detail {
+  fill: #c8c3b4;
+  stroke: #653b3b;
+  stroke-width: 1.5px;
+}
+
+.cassette-label {
+  fill: #333;
+  font-size: 12px;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.cassette-etiquette {
+  fill: #d5cbb9;
+  stroke: #65503b;
+  stroke-width: 1.5px;
+}
+
+.axis-line {
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.axis-label {
+  fill: #ffffff;
+  font-size: 12px;
+}
+
+/* .info-box {
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+} */
+
+.bar-stripe {
+  fill: #b7998a;
+}
+
+.graph_info {
+  display: flex;
+}
+
+
+/* info-box du 1er graphique */
+
+.info-box {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.movie-info {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.movie-poster {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movie-details {
+  flex: 1;
+}
+
+.movie-details h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #444;
+}
+
+.movie-details h2 span {
+  font-size: 1rem;
+  color: #888;
+}
+
+.movie-details p {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.movie-details p strong {
+  color: #444;
 }
 
 
 
+/* page mentions légales */
+
+.mentions {
+  padding: 0 15vw;
+  color: white;
+}
+
+.m_titre img {
+  width: 100%;
+  display: block;
+}
+.m_titre {
+  margin: 5rem auto;
+  position: relative;
+  gap: 10px;
+  width: 40vw;
+}
+
+.m_titre h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--rouge-foncé);
+  font-size: 5vw;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  margin: 0;
+  text-align: center;
+  font-family: "titre", sans-serif;
+  font-weight: normal;
+}
+
+p, ul, li {
+  font-size: 1rem;
+  line-height: 2;
+  margin-bottom: 50px;
+}

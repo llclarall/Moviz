@@ -82,6 +82,7 @@ function filterByGenre(films, selectedGenre) {
                stripe.setAttribute("width", stripeWidth);
                stripe.setAttribute("height", stripeHeight);
                stripe.setAttribute("fill", "#c8c3b4");
+               stripe.setAttribute("class", "bar-stripe");
                stripe.style.cursor = "pointer";
                stripe.addEventListener("click", () => showInfo(film));
                svg.appendChild(stripe);
@@ -95,6 +96,7 @@ function filterByGenre(films, selectedGenre) {
            cassette.setAttribute("y", yPosition - 5);
            cassette.setAttribute("width", cassetteWidth);
            cassette.setAttribute("height", 45);
+           cassette.setAttribute("rx", "3");
            cassette.setAttribute("class", "cassette-body");
            svg.appendChild(cassette);
 
@@ -145,7 +147,7 @@ fetch('./filmsDataEnriched.json')
         const buttonsContainer = document.getElementById('genre-buttons');
 
         // Liste personnalisée des genres à afficher
-        const selectedGenres = ['Action', 'Comedy', 'Drama', 'Fantasy', 'Horror'];
+        const selectedGenres = ['Action', 'Comedy', 'Drama', 'Fantasy', 'Romance'];
 
         // Créer un bouton pour chaque genre sélectionné
         selectedGenres.forEach(genre => {

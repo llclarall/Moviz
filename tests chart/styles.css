@@ -2,21 +2,23 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: #333;
+    background-color: #260101;
 }
 
 .bar {
-    fill: #746e67;
+    fill: #4e2825;
 }
 
 .cassette-body {
-    fill: #746e67;
+    fill: #8d453a;
     stroke: #252525;
     stroke-width: 1.5px;
 }
 
 .cassette-detail {
     fill: #c8c3b4;
+    stroke: #653b3b;
+    stroke-width: 1.5px;
 }
 
 .cassette-label {
@@ -27,7 +29,9 @@ body {
 }
 
 .cassette-etiquette {
-    fill: #f8f4e9;
+    fill: #d5cbb9;
+    stroke: #65503b;
+    stroke-width: 1.5px;
 }
 
 .axis-line {
@@ -49,7 +53,6 @@ body {
     background-color: #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
-
-
-
+.bar-stripe {
+    fill: #b7998a;
+}
