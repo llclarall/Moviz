@@ -9,14 +9,14 @@
 </head>
 
 <body>
-	<section class="accueil" id="accueil">
+	<div class="accueil" id="accueil">
 		<div class="titre">
 			<img src="images/logo.svg" alt="accueil" class="logo">
 			<h1>MoViz</h1>
 			<p>Vos films, nos données</p>
 		</div>
 		<a href="#graph1"><img src="images/fleche.svg" alt="scroll en bas" class="fleche"></a>
-	</section>
+	</div>
 
 	<section class="graph1" id="graph1">
 		<h2>Box-Office par genre</h2>
@@ -24,7 +24,7 @@
 		
 		<div class="graph-info">
 			<div class="graphique">
-				<svg id="barChart" width="850" height="550"></svg>
+				<svg id="barChart" width="800" height="550"></svg>
 				<br><br>
 				<div class="filtres" id="genre-buttons"></div> <br>
 			</div>
@@ -36,12 +36,28 @@
 		</div>
 	</section>
 
+	
+
+
+	<section class="graph2" id="graph2">
+		<h2><span>évolution des entrées au cinéma en France </span></h2>
+		<!-- btn pr convertir mon excel en json -->
+		<!-- <input type="file" id="excel-file" /> -->
+		 
+		<div class="container-graph2">
+			<canvas id="lineChart" width="520" height="200" class="lineChart"></canvas>
+		</div>
+	</section>
+
+
 	<a href="#accueil"><img src="images/top.svg" alt="haut de page" class="top"></a>
 
 	<footer>
 
 	</footer>
 	<script src="script.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<!-- <script src="script_data.js"></script> -->
 	<!-- <script src="script_data2.js"></script> -->
 </body>

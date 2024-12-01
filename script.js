@@ -28,6 +28,12 @@ fetch('filmsDataEnriched.json')
 function showInfo(film) {
   const infoBox = document.getElementById('info-box');
 
+  if (infoBox) {
+    const offset = window.innerHeight / 2 - infoBox.offsetHeight / 2; // Calculer l'offset pour centrer
+    const position = infoBox.getBoundingClientRect().top + window.scrollY - offset; // Position ajustée
+    window.scrollTo({ top: position, behavior: "smooth" });
+  }
+
   // Vérification des données disponibles
   const title = film.title || "Titre inconnu";
   const releaseDate = film.releaseDate || "Année inconnue";
@@ -111,13 +117,7 @@ function filterByGenre(films, selectedGenre) {
     bar.setAttribute("height", 37);
     bar.setAttribute("class", "bar");
     bar.style.cursor = "pointer";
-    bar.addEventListener("click", () => {
-      showInfo(film); 
-      const infoBox = document.querySelector(".info-box"); 
-      if (infoBox) {
-          infoBox.scrollIntoView({ behavior: "smooth", block: "start" }); 
-      }
-    });
+    bar.addEventListener("click", () => { showInfo(film) });
     svg.appendChild(bar);
 
     // Ajouter les stripes à la barre
@@ -134,13 +134,7 @@ function filterByGenre(films, selectedGenre) {
       stripe.setAttribute("fill", "#c8c3b4");
       stripe.setAttribute("class", "bar-stripe");
       stripe.style.cursor = "pointer";
-      stripe.addEventListener("click", () => {
-        showInfo(film); 
-        const infoBox = document.querySelector(".info-box"); 
-        if (infoBox) {
-            infoBox.scrollIntoView({ behavior: "smooth", block: "start" }); 
-        }
-      });
+      stripe.addEventListener("click", () => { showInfo(film) });
       svg.appendChild(stripe);
     }
 
@@ -154,13 +148,7 @@ function filterByGenre(films, selectedGenre) {
     cassette.setAttribute("height", 50);
     cassette.setAttribute("rx", "3");
     cassette.style.cursor = "pointer";
-    cassette.addEventListener("click", () => {
-      showInfo(film); 
-      const infoBox = document.querySelector(".info-box"); 
-      if (infoBox) {
-          infoBox.scrollIntoView({ behavior: "smooth", block: "start" }); 
-      }
-    });
+    cassette.addEventListener("click", () => { showInfo(film) });
     cassette.setAttribute("class", "cassette-body");
     svg.appendChild(cassette);
 
@@ -173,13 +161,7 @@ function filterByGenre(films, selectedGenre) {
       detail.setAttribute("height", 32);
       detail.setAttribute("rx", "2");
       detail.style.cursor = "pointer";
-      detail.addEventListener("click", () => {
-        showInfo(film); 
-        const infoBox = document.querySelector(".info-box"); 
-        if (infoBox) {
-            infoBox.scrollIntoView({ behavior: "smooth", block: "start" }); 
-        }
-      });
+      detail.addEventListener("click", () => { showInfo(film) });
       detail.setAttribute("class", "cassette-detail");
       svg.appendChild(detail);
     }
@@ -191,13 +173,7 @@ function filterByGenre(films, selectedGenre) {
     middleDetail.setAttribute("width", 160);
     middleDetail.setAttribute("height", 36);
     middleDetail.style.cursor = "pointer";
-    middleDetail.addEventListener("click", () => {
-      showInfo(film); 
-      const infoBox = document.querySelector(".info-box"); 
-      if (infoBox) {
-          infoBox.scrollIntoView({ behavior: "smooth", block: "start" }); 
-      }
-    });
+    middleDetail.addEventListener("click", () => { showInfo(film) });
     middleDetail.setAttribute("class", "cassette-etiquette");
     svg.appendChild(middleDetail);
 
@@ -210,13 +186,7 @@ function filterByGenre(films, selectedGenre) {
     label.setAttribute("y", yPosition + 24); // Position verticale initiale
     label.setAttribute("class", "cassette-label");
     label.style.cursor = "pointer";
-    label.addEventListener("click", () => {
-      showInfo(film); 
-      const infoBox = document.querySelector(".info-box"); 
-      if (infoBox) {
-          infoBox.scrollIntoView({ behavior: "smooth", block: "start" }); 
-      }
-    });
+    label.addEventListener("click", () => { showInfo(film) });
 
     // Diviser le texte en plusieurs lignes si nécessaire
     const words = film.title.split(" ");
@@ -324,3 +294,101 @@ fetch('./filmsDataEnriched.json')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Erreur lors du chargement des données :', error));
+
+
+
+
+/* GRAPHIQUE 2 */
+
+
+/* Script pour convertir mon fichier excel en un fichier json */
+
+/* document.getElementById('excel-file').addEventListener('change', handleFileSelect, false);
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0]; 
+        const sheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(sheet); 
+        console.log(jsonData); 
+    };
+    reader.readAsArrayBuffer(file);
+  } */
+
+
+    const ctx = document.getElementById('lineChart').getContext('2d');
+
+    fetch('entreesData.json')
+      .then(response => response.json())
+      .then(data => {
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.map(item => item.year), // Les années
+            datasets: [{
+              label: 'Entrées (en millions)',
+              data: data.map(item => item.entries), // Les valeurs
+              borderColor: '#8F3333',
+              backgroundColor: '#8F333350',
+              fill: true,
+              tension: 0.4, // Ajoute une courbe lissée
+              pointRadius: 8, // rayon des points
+              pointHoverRadius: 20, // rayon des points au survol
+              hitRadius: 40, // rayon de détection des points
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top'
+              }
+            },
+            scales: {
+              x: {
+                type: 'category', // Assurez-vous que l'axe X est de type catégorie pour afficher les années
+                title: {
+                  display: true,
+                  color: 'white',
+                  text: 'Années'
+                },
+                grid: {
+                  display: false,  // Masquer la grille
+                },
+                ticks: {
+                  color: 'white',  // Couleur des ticks
+                },
+                border: {
+                  color: 'white',  // Couleur de la ligne de l'axe X
+                  width: 2, // Épaisseur de la ligne de l'axe X
+                }
+              },
+              y: {
+                beginAtZero: true, // S'assurer que l'axe Y commence à zéro
+                title: {
+                  display: true,
+                  color: 'white',
+                  text: 'Entrées (millions)'
+                },
+                grid: {
+                  display: false,  // Masquer la grille
+                },
+                ticks: {
+                  color: 'white',  // Couleur des ticks
+                },
+                border: {
+                  color: 'white',  // Couleur de la ligne de l'axe Y
+                  width: 2, // Épaisseur de la ligne de l'axe Y
+                }
+              }
+            }
+          }
+        });
+      })
+      .catch(error => console.error('Erreur lors du chargement des données :', error));
+    

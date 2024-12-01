@@ -4,7 +4,7 @@
 
 :root {
   --rouge-foncé : #380000;
-  --rouge-clair : #8F3333;
+  --rouge-clair : #8f3333;
 }
 
 html {
@@ -102,8 +102,8 @@ h2 {
   font-weight: normal;
 }
 
-.graph1 {
-  padding: 2rem 10vw;
+section {
+  padding: 3rem 10vw;
 }
 
 .graph1 h2 {
@@ -195,6 +195,8 @@ transform: scale(1.03);
   display: flex;
   gap: 20px;
   align-items: flex-start;
+  margin: 0;
+  padding: 0;
 }
 
 .movie-poster {
@@ -259,9 +261,7 @@ transform: scale(1.03);
 
 }
 
-
-
-
+/* flèche haut de page */
 .top {
   position: fixed;
   bottom: 5%;
@@ -306,3 +306,14 @@ p, ul, li {
   line-height: 2;
   margin-bottom: 50px;
 }
+
+
+
+/* section graphique 2 */
+
+.graph2 h2 {
+ text-align: right;
+ width: 60%;
+ margin-left: auto;
+}
+
