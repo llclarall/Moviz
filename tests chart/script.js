@@ -46,91 +46,136 @@ function filterByGenre(films, selectedGenre) {
     let yPosition = 70; // Position verticale initiale
 
     filteredFilms.forEach(film => {
-           // Nettoyer et convertir les revenus en nombre
-           const cleanedBoxOffice = film.boxOffice.replace(/,/g, '');
-           const boxOfficeValue = Number(cleanedBoxOffice);
+        // Nettoyer et convertir les revenus en nombre
+        const cleanedBoxOffice = film.boxOffice.replace(/,/g, '');
+        const boxOfficeValue = Number(cleanedBoxOffice);
 
-           // Vérifier si la valeur est valide
-           if (isNaN(boxOfficeValue)) {
-               console.warn(`Revenus invalides pour le film : ${film.title}`);
-               return;
-           }
+        // Vérifier si la valeur est valide
+        if (isNaN(boxOfficeValue)) {
+            console.warn(`Revenus invalides pour le film : ${film.title}`);
+            return;
+        }
 
-           // Calculer les dimensions
-           const barWidth = boxOfficeValue / 1250000;
-           
-           // Barre principale
-           const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-           bar.setAttribute("x", 15);
-           bar.setAttribute("y", yPosition);
-           bar.setAttribute("width", barWidth);
-           bar.setAttribute("height", 33);
-           bar.setAttribute("class", "bar");
-           bar.style.cursor = "pointer";
-           bar.addEventListener("click", () => showInfo(film));
-           svg.appendChild(bar);
-           
-           // Ajouter les stripes à la barre
-           const stripeHeight = 22;
-           const stripeWidth = 10;
-           const gap = 6;
-           
-           for (let i = 0; i < Math.floor(barWidth / (stripeWidth + gap)); i++) {
-               const stripe = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-               stripe.setAttribute("x", 25 + i * (stripeWidth + gap));
-               stripe.setAttribute("y", yPosition + 5);
-               stripe.setAttribute("width", stripeWidth);
-               stripe.setAttribute("height", stripeHeight);
-               stripe.setAttribute("fill", "#c8c3b4");
-               stripe.setAttribute("class", "bar-stripe");
-               stripe.style.cursor = "pointer";
-               stripe.addEventListener("click", () => showInfo(film));
-               svg.appendChild(stripe);
-           }
+        // Calculer les dimensions
+        const barWidth = boxOfficeValue / 1250000;
 
-           const cassetteWidth = 200;
-           
-           // Ajouter la cassette
-           const cassette = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-           cassette.setAttribute("x", 10);
-           cassette.setAttribute("y", yPosition - 5);
-           cassette.setAttribute("width", cassetteWidth);
-           cassette.setAttribute("height", 45);
-           cassette.setAttribute("rx", "3");
-           cassette.setAttribute("class", "cassette-body");
-           svg.appendChild(cassette);
+        // Barre principale
+        const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        bar.setAttribute("x", 15);
+        bar.setAttribute("y", yPosition);
+        bar.setAttribute("width", barWidth);
+        bar.setAttribute("height", 33);
+        bar.setAttribute("class", "bar");
+        bar.style.cursor = "pointer";
+        bar.addEventListener("click", () => showInfo(film));
+        svg.appendChild(bar);
 
-           // Lignes de détail de la cassette
-           for (let i = 0; i < 2; i++) {
-               const detail = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-               detail.setAttribute("x", 16 + i * 173);
-               detail.setAttribute("y", yPosition + 4);
-               detail.setAttribute("width", 15);
-               detail.setAttribute("height", 28);
-               detail.setAttribute("rx", "2");
-               detail.setAttribute("class", "cassette-detail");
-               svg.appendChild(detail);
-           }
+        // Ajouter les stripes à la barre
+        const stripeHeight = 22;
+        const stripeWidth = 10;
+        const gap = 6;
 
-           // Etiquette de la cassette
-           const middleDetail = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-           middleDetail.setAttribute("x", 40);
-           middleDetail.setAttribute("y", yPosition + 2);
-           middleDetail.setAttribute("width", 140);
-           middleDetail.setAttribute("height", 32);
-           middleDetail.setAttribute("class", "cassette-etiquette");
-           svg.appendChild(middleDetail);
+        for (let i = 0; i < Math.floor(barWidth / (stripeWidth + gap)); i++) {
+            const stripe = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            stripe.setAttribute("x", 25 + i * (stripeWidth + gap));
+            stripe.setAttribute("y", yPosition + 5);
+            stripe.setAttribute("width", stripeWidth);
+            stripe.setAttribute("height", stripeHeight);
+            stripe.setAttribute("fill", "#c8c3b4");
+            stripe.setAttribute("class", "bar-stripe");
+            stripe.style.cursor = "pointer";
+            stripe.addEventListener("click", () => showInfo(film));
+            svg.appendChild(stripe);
+        }
 
-           // Ajouter le texte de la cassette
-           const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-           label.setAttribute("x", 110);
-           label.setAttribute("y", yPosition + 22);
-           label.setAttribute("class", "cassette-label");
-           label.textContent = film.title;
-           svg.appendChild(label);
+        const cassetteWidth = 200;
 
-           // Augmenter la position verticale pour le prochain film
-           yPosition += 90;
+        // Ajouter la cassette
+        const cassette = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        cassette.setAttribute("x", 10);
+        cassette.setAttribute("y", yPosition - 5);
+        cassette.setAttribute("width", cassetteWidth);
+        cassette.setAttribute("height", 45);
+        cassette.setAttribute("rx", "3");
+        cassette.setAttribute("class", "cassette-body");
+        svg.appendChild(cassette);
+
+        // Lignes de détail de la cassette
+        for (let i = 0; i < 2; i++) {
+            const detail = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            detail.setAttribute("x", 16 + i * 173);
+            detail.setAttribute("y", yPosition + 4);
+            detail.setAttribute("width", 15);
+            detail.setAttribute("height", 28);
+            detail.setAttribute("rx", "2");
+            detail.setAttribute("class", "cassette-detail");
+            svg.appendChild(detail);
+        }
+
+        // Etiquette de la cassette
+        const middleDetail = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        middleDetail.setAttribute("x", 40);
+        middleDetail.setAttribute("y", yPosition + 2);
+        middleDetail.setAttribute("width", 140);
+        middleDetail.setAttribute("height", 32);
+        middleDetail.setAttribute("class", "cassette-etiquette");
+        svg.appendChild(middleDetail);
+
+        // Largeur maximale de l'étiquette
+        const maxWidth = 140;
+
+        // Ajouter le texte de la cassette
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("x", 110); // Position initiale
+        label.setAttribute("y", yPosition + 22); // Position verticale initiale
+        label.setAttribute("class", "cassette-label");
+        label.style.cursor = "pointer";
+
+        // Diviser le texte en plusieurs lignes si nécessaire
+        const words = film.title.split(" ");
+        let currentLine = "";
+        let lines = [];
+
+        // SVG ne peut pas mesurer directement les mots avant leur ajout, donc on utilise un élément temporaire
+        const tempText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        tempText.setAttribute("class", "cassette-label");
+        svg.appendChild(tempText);
+
+        words.forEach((word) => {
+            tempText.textContent = currentLine + (currentLine ? " " : "") + word;
+            const textWidth = tempText.getBBox().width;
+
+            if (textWidth > maxWidth) {
+                // Si la ligne actuelle dépasse la largeur max, on enregistre la ligne et on démarre une nouvelle
+                lines.push(currentLine);
+                currentLine = word;
+            } else {
+                // Sinon, on continue d'ajouter à la ligne actuelle
+                currentLine += (currentLine ? " " : "") + word;
+            }
+        });
+
+        // Ajouter la dernière ligne
+        if (currentLine) lines.push(currentLine);
+
+        // Supprimer l'élément temporaire
+        svg.removeChild(tempText);
+
+        // Ajouter les lignes au label avec des tspan
+        lines.forEach((line, index) => {
+            const tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+            tspan.setAttribute("x", 110); // Garder la position horizontale fixe
+            tspan.setAttribute("dy", index === 0 ? 0 : 16); // Décalage vertical entre les lignes (16 px ici)
+            tspan.textContent = line;
+            label.appendChild(tspan);
+        });
+
+        // Ajouter le label au SVG
+        svg.appendChild(label);
+
+
+        // Augmenter la position verticale pour le prochain film
+        yPosition += 90;
     });
 }
 
@@ -185,7 +230,9 @@ fetch('./filmsDataEnriched.json')
     .catch(error => {
         console.error('Erreur lors du chargement ou du traitement des données :', error);
     });
-    fetch('./filmsDataEnriched.json')
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Erreur lors du chargement des données :', error));
+fetch('./filmsDataEnriched.json')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Erreur lors du chargement des données :', error));
+
+
