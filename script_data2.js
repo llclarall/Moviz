@@ -1058,7 +1058,7 @@ function getPostersAndTrailers(filmsData) {
     processNextFilm(); // Lancer le traitement
 }
 
-// Fonction pour sauvegarder les données enrichies localement
+// Fonction pour sauvegarder les données enrichies localement (le télécharger)
 function saveEnrichedData(filmsData) {
     const jsonData = JSON.stringify(filmsData, null, 2);
     const blob = new Blob([jsonData], { type: "application/json" });
