@@ -1030,9 +1030,10 @@ fetch('filmsDataEnriched.json')
 function showInfo(film) {
   const infoBox = document.getElementById('info-box');
 
+  // Faire défiler la page pour afficher la boîte d'informations
   if (infoBox) {
-    const offset = window.innerHeight / 2 - infoBox.offsetHeight / 2; // Calculer l'offset pour centrer
-    const position = infoBox.getBoundingClientRect().top + window.scrollY - offset; // Position ajustée
+    const offset = window.innerHeight / 2 - infoBox.offsetHeight / 2 + 85; 
+    const position = infoBox.getBoundingClientRect().top + window.scrollY - offset; 
     window.scrollTo({ top: position, behavior: "smooth" });
   }
 
@@ -1129,7 +1130,7 @@ function filterByGenre(films, selectedGenre) {
 
     setTimeout(() => {
       bar.setAttribute("width", barWidth);
-    }, 50);
+    }, 10);
 
 
     // Ajouter les stripes à la barre
@@ -1152,7 +1153,7 @@ function filterByGenre(films, selectedGenre) {
     setTimeout(() => {
       stripe.setAttribute("width", stripeWidth);
       stripe.setAttribute("x",  25 + i * (stripeWidth + gap));
-    }, 50);
+    }, 10);
 }
     const cassetteWidth = 220;
 
@@ -1282,13 +1283,6 @@ fetch('./filmsDataEnriched.json')
     selectedGenres.forEach(genre => {
       const button = document.createElement('button');
       button.textContent = genreTranslations[genre];
-      /*           button.style.marginRight = "10px";
-                button.style.padding = "8px 12px";
-                button.style.cursor = "pointer";
-                button.style.borderRadius = "5px";
-                button.style.border = "none";
-                button.style.backgroundColor = "#746e67";
-                button.style.color = "#fff"; */
       button.setAttribute("class", "filtre");
 
       button.addEventListener('click', () => filterByGenre(films, genre));
@@ -1298,17 +1292,24 @@ fetch('./filmsDataEnriched.json')
     // Ajouter un bouton "Tous les genres"
     const allButton = document.createElement('button');
     allButton.textContent = "Tous les genres";
-    /* allButton.style.marginRight = "10px";
-    allButton.style.padding = "8px 12px";
-    allButton.style.cursor = "pointer";
-    allButton.style.borderRadius = "5px";
-    allButton.style.border = "none";
-    allButton.style.backgroundColor = "#6b6b6b";
-    allButton.style.color = "#fff"; */
-    allButton.setAttribute("class", "allGenres");
+
+    allButton.setAttribute("class", "allGenres filtre");
 
     allButton.addEventListener('click', () => filterByGenre(films, null));
     buttonsContainer.appendChild(allButton);
+
+    // Ajouter un événement de clic pour faire défiler jusqu'au graphique
+    const scrollToChart = () => {
+      const chartElement = document.getElementById('graph1');
+      if (chartElement) {
+      chartElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    // Ajouter l'événement de clic pour chaque bouton de genre
+    buttonsContainer.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', scrollToChart);
+    });
 
     // Afficher les 5 meilleurs de tous les genres au début
     filterByGenre(films, null);
@@ -1424,4 +1425,48 @@ window.addEventListener('resize', () => {
   if (chart) {
     chart.resize();
   }
+});
+
+
+
+
+/* animation compteurs */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll(".counter");
+
+  const animateCounter = (counter) => {
+    const target = +counter.getAttribute("data-target");
+    const increment = target / 100; // Divise pour un effet progressif
+    let current = 0;
+
+    const updateCounter = () => {
+      current += increment;
+      if (current < target) {
+        counter.textContent = Math.ceil(current);
+        requestAnimationFrame(updateCounter); // Animation fluide
+      } else {
+        counter.textContent = target; // Arrête à la valeur cible
+      }
+    };
+
+    updateCounter();
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const counter = entry.target;
+          if (!counter.classList.contains("visible")) {
+            counter.classList.add("visible");
+            animateCounter(counter);
+          }
+        }
+      });
+    },
+    { threshold: 0.5 } // L'animation démarre lorsque 50% de l'élément est visible
+  );
+
+  counters.forEach((counter) => observer.observe(counter));
 });
