@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-cloud/build/d3.layout.cloud.min.js"></script>
+    <style>
+      /*         body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+        #wordcloud {
+            width: 800px;
+            height: 600px;
+            margin-top: 20px;
+        }
+        select {
+            margin-top: 10px;
+            padding: 5px;
+        } */
+
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        background-color: #f9f9f9;
+      }
+
+      #chart-container {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .legend {
+        margin-left: 40px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+
+      svg {
+        overflow: visible;
+      }
+
+      .impact-text {
+        font-size: 18px;
+        text-align: center;
+        margin: 20px;
+        max-width: 700px;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .percent-text {
+        font-size: 14px;
+        font-weight: bold;
+        fill: #fff;
+      }
+
+      .txt {
+        font-size: 14px;
+        font-weight: bold;
+        fill: #000;
+      }
+
+      .percentage {
+        font-size: 12px; /* Ajustez selon votre design */
+        font-weight: bold;
+        fill: #fff; /* Couleur du texte */
+      }
+
+      .info-div {
+    transition: all 0.3s ease-in-out;
+    pointer-events: none; /* Désactiver les interactions avec la div */
+}
+
+.arc:hover {
+    cursor: pointer;
+}
+
+    </style>
+  </head>
+  <body>
+    <h1>Répartition des films par Box-office et Note IMDb</h1>
+    <div id="chart-container">
+      <svg id="donutChart" width="400" height="400"></svg>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #fc7e54"></div>
+          <span>Box-office élevé & Note IMDb élevée</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #ffb265"></div>
+          <span>Box-office faible & Note IMDb élevée</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #b73131"></div>
+          <span>Box-office faible & Note IMDb faible</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #8b4513"></div>
+          <span>Box-office élevé & Note IMDb faible</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="impact-text">
+      Les films à grand box-office ne sont pas toujours les mieux notés.
+      Découvrez comment la popularité commerciale et les critiques s'entrelacent
+      !
+    </div>
+
+    <script>
+      // Charger les données depuis le fichier JSON
+      d3.json("filmsDataEnriched.json")
+        .then((data) => {
+          // Définir les seuils pour box-office et note IMDb
+          const boxOfficeThreshold = 100000000; // 100 millions
+          const imdbThreshold = 7; // Note IMDb > 7
+
+          // Étape 1: Classer les films dans les catégories
+          let categories = {
+            "Box-office élevé & Note IMDb élevée": 0,
+            "Box-office faible & Note IMDb élevée": 0,
+            "Box-office faible & Note IMDb faible": 0,
+            "Box-office élevé & Note IMDb faible": 0,
+          };
+
+          data.forEach((film) => {
+            const boxOffice = parseFloat(
+              film.boxOffice.replace(/[^0-9.-]+/g, "")
+            ); // Nettoyer la valeur de box-office
+            const IMDBratings = parseFloat(film.IMDBratings);
+
+            // Classer le film en fonction de ses critères
+            if (boxOffice > boxOfficeThreshold && IMDBratings > imdbThreshold) {
+              categories["Box-office élevé & Note IMDb élevée"]++;
+            } else if (
+              boxOffice <= boxOfficeThreshold &&
+              IMDBratings > imdbThreshold
+            ) {
+              categories["Box-office faible & Note IMDb élevée"]++;
+            } else if (
+              boxOffice <= boxOfficeThreshold &&
+              IMDBratings <= imdbThreshold
+            ) {
+              categories["Box-office faible & Note IMDb faible"]++;
+            } else if (
+              boxOffice > boxOfficeThreshold &&
+              IMDBratings <= imdbThreshold
+            ) {
+              categories["Box-office élevé & Note IMDb faible"]++;
+            }
+          });
+
+          // Convertir les catégories en un format adapté pour D3
+          const categoryData = Object.entries(categories).map(
+            ([category, count]) => ({
+              category,
+              count,
+            })
+          );
+
+          // Étape 2: Créer un graphique en donut
+          const width = 400,
+            height = 400,
+            radius = Math.min(width, height) / 2;
+          const color = d3.scaleOrdinal([
+            "#FC7E54",
+            "#8B4513",
+            "#FFB265",
+            "#B73131",
+          ]);
+          const pie = d3.pie().value((d) => d.count);
+          const arc = d3
+            .arc()
+            .outerRadius(radius - 10)
+            .innerRadius(radius - 150); // Épaisseur du donut
+          const labelArc = d3
+            .arc()
+            .outerRadius(radius)
+            .innerRadius(radius + 110); // Position des étiquettes
+
+          const svg = d3
+            .select("#donutChart")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width / 2},${height / 2})`);
+
+          const arcs = svg
+            .selectAll(".arc")
+            .data(pie(categoryData))
+            .enter()
+            .append("g")
+            .attr("class", "arc");
+
+          // Ajouter une div pour afficher les informations du film
+const infoDiv = d3.select("body").append("div")
+    .attr("class", "info-div")
+    .style("position", "absolute")
+    .style("background-color", "#fff")
+    .style("padding", "10px")
+    .style("border", "1px solid #ccc")
+    .style("border-radius", "5px")
+    .style("box-shadow", "0 2px 5px rgba(0, 0, 0, 0.2)")
+    .style("display", "none")
+    .style("font-size", "14px");
+
+// Ajout des arcs avec interactions
+arcs.append("path")
+    .attr("d", arc)
+    .style("fill", d => color(d.data.category))
+    .on("mouseover", function (event, d) {
+        // Agrandir l'arc
+        d3.select(this)
+            .transition()
+            .duration(300)
+            .attr("d", d3.arc().outerRadius(radius - 5).innerRadius(radius - 150));
+    })
+    .on("mouseout", function (event, d) {
+        // Rétablir la taille de l'arc
+        d3.select(this)
+            .transition()
+            .duration(300)
+            .attr("d", arc);
+    })
+    .on("click", function (event, d) {
+        // Trouver un exemple de film dans cette catégorie
+        const exampleFilm = data.find(film => {
+            const boxOffice = parseFloat(film.boxOffice.replace(/[^0-9.-]+/g, ""));
+            const IMDBratings = parseFloat(film.IMDBratings);
+
+            if (d.data.category === "Box-office élevé & Note IMDb élevée") {
+                return boxOffice > 100000000 && IMDBratings > 7;
+            } else if (d.data.category === "Box-office faible & Note IMDb élevée") {
+                return boxOffice <= 100000000 && IMDBratings > 7;
+            } else if (d.data.category === "Box-office faible & Note IMDb faible") {
+                return boxOffice <= 100000000 && IMDBratings <= 7;
+            } else if (d.data.category === "Box-office élevé & Note IMDb faible") {
+                return boxOffice > 100000000 && IMDBratings <= 7;
+            }
+        });
+
+        // Afficher les informations dans la div
+        if (exampleFilm) {
+            infoDiv.style("display", "block")
+                .style("left", `${event.pageX + 10}px`)
+                .style("top", `${event.pageY + 10}px`)
+                .html(`
+                    <strong>Exemple de film :</strong><br>
+                    <strong>Titre :</strong> ${exampleFilm.title}<br>
+                    <strong>Box-office :</strong> ${exampleFilm.boxOffice}<br>
+                    <strong>Note IMDb :</strong> ${exampleFilm.IMDBratings}
+                `);
+        } else {
+            infoDiv.style("display", "block")
+                .style("left", `${event.pageX + 10}px`)
+                .style("top", `${event.pageY + 10}px`)
+                .html("Aucun film correspondant trouvé.");
+        }
+    });
+
+// Fermer la div lorsqu'on clique ailleurs
+d3.select("body").on("click", () => {
+    infoDiv.style("display", "none");
+});
+
+
+          // Positionner les catégories à l'extérieur du donut
+          arcs
+            .append("text")
+            .attr("transform", (d) => `translate(${labelArc.centroid(d)})`) // Position des étiquettes à l'extérieur
+            .attr("dy", "0.35em") // Décalage vertical
+            .style("text-anchor", "middle")
+            .attr("class", "txt")
+            .each(function (d) {
+              const textElement = d3.select(this);
+              const category = d.data.category;
+
+              // Découper le texte en deux lignes
+              const words = category.split(" ");
+              const line1 = words
+                .slice(0, Math.ceil(words.length / 2))
+                .join(" ");
+              const line2 = words.slice(Math.ceil(words.length / 2)).join(" ");
+
+              textElement
+                .append("tspan")
+                .attr("x", 0)
+                .attr("dy", "-0.6em")
+                .text(line1);
+
+              textElement
+                .append("tspan")
+                .attr("x", 0)
+                .attr("dy", "1.2em")
+                .text(line2);
+            });
+
+          // Positionner les pourcentages au centre des arcs
+          arcs
+            .append("text")
+            .attr("transform", (d) => {
+              const centroid = arc.centroid(d); // Coordonnées centrées à l'intérieur
+              return `translate(${centroid[0]}, ${centroid[1]})`; // Ajuster selon l'arc
+            })
+            .style("text-anchor", "middle")
+            .attr("class", "percentage")
+            .text((d) => {
+              const percentage = Math.round(
+                (d.data.count / d3.sum(categoryData.map((d) => d.count))) * 100
+              );
+              return `${percentage}%`;
+            });
+        })
+        .catch((error) =>
+          console.error("Erreur lors du chargement des données :", error)
+        );
+    </script>
+  </body>
+</html>

@@ -2,97 +2,127 @@
 <html lang="fr">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Moviz</title>
-	<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moviz</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<link rel="icon" href="images/logo.ico"/>
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sono:wght,MONO@200..800,0&display=swap" rel="stylesheet">
 </head>
 
-<body>
-	<div class="accueil" id="accueil">
-		<div class="titre">
-			<img src="images/logo.svg" alt="accueil" class="logo">
-			<h1>MoViz</h1>
-			<p>Vos films, nos données</p>
+
+<body class="sono">
+	<a href="#content" class="skip">Aller au contenu</a>
+<div class="accueil" id="accueil">
+	<div class="titre">
+		<img src="images/logo.svg" alt="accueil" class="logo">
+		<h1>MoViz</h1>
+		<p>Vos films, nos données</p>
+	</div>
+	<a href="#donnees"><img src="images/fleche.svg" alt="scroll en bas" class="fleche"></a>
+</div>
+
+
+
+<section class="donnees" id="content">
+	<h2 id="donnees">Le cinéma en quelques données</h2> <br>
+	<h3 class="chq_annee">Combien de films chaque année ?</h3>
+
+	<div class="chiffres">
+		<div class="chiffres-fr">
+			<div class="chiffre">
+				<h3>En France</h3>
+				<div class="chiffre-flex">
+					<span class="counter" data-target="298">0</span>
+					<p>sortis au cinéma en 2023</p>
+				</div>
+			</div>
+			<div class="chiffre">
+				<h3>En Amérique du Nord</h3>
+				<div class="chiffre-flex">
+					<span class="counter" data-target="504">0</span>
+					<p>sortis au cinéma en 2023</p>
+				</div>
+			</div>
 		</div>
-		<a href="#graph1"><img src="images/fleche.svg" alt="scroll en bas" class="fleche"></a>
+
+		<div class="chiffre">
+			<h3 class="mde">Dans le monde</h3>
+			<div class="chiffre-flex flex-mde">
+				<span class="counter" data-target="693133">0</span>
+				<p>sortis au cinéma jusqu'à aujourd'hui</p>
+			</div>
+		</div>
 	</div>
 
+</section>
 
-	<section class="donnees">
-		<h2>Le cinéma en quelques données</h2>
 
-		<div class="chiffres">
-			<div class="chiffres-fr">
-				<div class="chiffre">
-					<h3>En France</h3>
-					<div class="chiffre-flex">
-						<span class="counter" data-target="298">0</span>
-						<p>sortis au cinéma en 2023</p>
-					</div>
-				</div>
-				<div class="chiffre">
-					<h3>En Amérique du Nord</h3>
-					<div class="chiffre-flex">
-						<span class="counter" data-target="504">0</span>
-						<p>sortis au cinéma en 2023</p>
-					</div>
-				</div>
-			</div>
 
-			<div class="chiffre">
-				<h3 class="mde">Dans le monde</h3>
-				<div class="chiffre-flex flex-mde">
-					<span class="counter" data-target="693133">0</span>
-					<p>sortis au cinéma jusqu'à aujourd'hui</p>
-				</div>
-			</div>
+<section class="graph1 sono" id="graph1">
+	<h2>Box-Office par genre</h2>
+	<div class="graph-info">
+		<div class="graphique">
+			<svg id="barChart" width="800" height="550"></svg>
+			<br><br>
+			<div class="filtres" id="genre-buttons"></div> <br>
 		</div>
-
-	</section>
-
-
-
-	<section class="graph1" id="graph1">
-		<h2>Box-Office par genre</h2>
-		<div class="graph-info">
-			<div class="graphique">
-				<svg id="barChart" width="800" height="550"></svg>
-				<br><br>
-				<div class="filtres" id="genre-buttons"></div> <br>
-			</div>
-			
-			<div id="info-box" class="info-box">
+		
+		<div id="info-box" class="info-box sono">
+			<p class="sono info">
 				<strong>Informations sur le film</strong><br>
 				Cliquez sur une barre pour voir les infos du film.
-			</div>
+			</p>
 		</div>
-	</section>
+	</div>
+</section>
 
-	
 
 
-	<section class="graph2" id="graph2">
-		<h2><span>évolution des entrées au cinéma en France </span></h2>
-		<!-- btn pr convertir mon excel en json -->
-		<!-- <input type="file" id="excel-file" /> -->
-		 
+
+
+<section class="graph2" id="graph2">
+	<h2><span>évolution des entrées au cinéma en France </span></h2>
+	<!-- btn pr convertir mon excel en json -->
+	<!-- <input type="file" id="excel-file" /> -->
+		
+	<div class="container">
 		<div class="container-graph2">
-			<canvas id="lineChart" width="700" height="400" class="lineChart"></canvas>
+			<canvas id="lineChart" width="800" height="450" class="lineChart"></canvas>
 		</div>
-	</section>
+		<div class="graph2-txt">
+			<h3>Des hauts et des bas</h3>
+			<p>Le cinéma français a connu des hauts et des bas au fil des années. Les entrées au cinéma ont connu une forte baisse en 2020, en raison de la crise sanitaire. En 2021, le nombre d'entrées a augmenté, mais reste inférieur à celui de 2019.
+			</p>
+		</div>
+	</div>
+</section>
 
 
-	<a href="#accueil"><img src="images/top.svg" alt="haut de page" class="top"></a>
 
-	<footer>
+<section class="graph3" id="graph3">
+	<h2>Répartition des films par Décennies</h2>
+	<span class="span">Parmi les 1000 films qui ont le plus rapportés au monde</span>
+    <div id="chart-container" class="chart-container">
+      <svg id="pieChart"></svg>
+      <div id="info-box2" class="info-box2"></div>
+    </div>
+	
+</section>
 
-	</footer>
-	<script src="script.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<!-- <script src="script_data.js"></script> -->
-	<!-- <script src="script_data2.js"></script> -->
+<a href="#accueil"><img src="images/top.svg" alt="haut de page" class="top"></a>
+
+<footer>
+
+</footer>
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- <script src="script_data.js"></script> -->
+<!-- <script src="script_data2.js"></script> -->
 </body>
 
 </html>

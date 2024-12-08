@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Répartition par Décennies</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        background-color: #f9f9f9;
+      }
+
+      #chart-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      svg {
+        overflow: visible;
+      }
+
+      .legend {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        border-radius: 3px;
+      }
+
+      .percentage {
+        font-size: 20px;
+        font-weight: bold;
+        fill: #fff;
+        text-anchor: middle;
+      }
+
+      .decade-text {
+        font-size: 14px;
+        font-weight: bold;
+        fill: #333;
+        text-anchor: middle;
+        cursor: pointer;
+      }
+
+      #info-box2 {
+        width: 320px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        display: none;
+        position: relative;
+        margin-left: 50px;
+        transition: all 0.3s ease;
+      }
+
+      #info-box2 h2 {
+        margin: 0;
+        font-size: 20px;
+        color: #333;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      #info-box2 .count {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #2c3e50;
+      }
+
+      #info-box2 .films {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      #info-box2 .film-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.3s ease;
+      }
+
+      #info-box2 .film-item:hover {
+        transform: scale(1.01);
+      }
+
+      #info-box2 img {
+        width: 60px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+
+      #info-box2 .film-info {
+        display: flex;
+        flex-direction: column;
+        color: #34495e;
+      }
+
+      #info-box2 .film-title {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+
+      #info-box2 .film-meta {
+        font-size: 14px;
+      }
+
+      #info-box2 .film-meta span {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Répartition des films par Décennies</h1>
+    <div id="chart-container">
+      <svg id="pieChart" width="500" height="500"></svg>
+      <div id="info-box2"></div>
+    </div>
+
+    <script>
+      fetch("filmsDataEnriched.json")
+        .then((response) => response.json())
+        .then((films) => {
+          const decades = {
+            "Années 60, 70 et 80": [],
+            "Années 1990": [],
+            "Années 2000": [],
+            "Années 2010": [],
+            "Années 2020": [],
+          };
+
+          // Regrouper les films par décennies
+          films.forEach((film) => {
+            const releaseDate = film.releaseDate;
+            const year = parseInt(releaseDate.split(" ").pop(), 10);
+
+            if (year >= 1960 && year < 1990) {
+              decades["Années 60, 70 et 80"].push(film);
+            } else if (year >= 1990 && year < 2000) {
+              decades["Années 1990"].push(film);
+            } else if (year >= 2000 && year < 2010) {
+              decades["Années 2000"].push(film);
+            } else if (year >= 2010 && year < 2020) {
+              decades["Années 2010"].push(film);
+            } else if (year >= 2020) {
+              decades["Années 2020"].push(film);
+            }
+          });
+
+          const decadeData = Object.entries(decades).map(([key, value]) => ({
+            label: key,
+            value: value.length,
+            films: value,
+          }));
+
+          const width = 400,
+            height = 400,
+            radius = Math.min(width, height) / 2;
+
+          const color = d3
+            .scaleOrdinal()
+            .domain(decadeData.map((d) => d.label))
+            .range(["#6a5acd", "#ffb265", "#fc7e54", "#b73131", "#8b4513"]);
+
+          const pie = d3.pie().value((d) => d.value);
+          const arc = d3
+            .arc()
+            .outerRadius(radius - 10)
+            .innerRadius(radius / 2 - 40);
+
+          const arcHover = d3
+            .arc()
+            .outerRadius(radius)
+            .innerRadius(radius / 2 - 38);
+
+          const svg = d3
+            .select("#pieChart")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width / 2},${height / 2})`);
+
+          const arcs = svg
+            .selectAll(".arc")
+            .data(pie(decadeData))
+            .enter()
+            .append("g")
+            .attr("class", "arc");
+
+          // Dessiner les arcs
+          arcs
+            .append("path")
+            .attr("d", arc)
+            .style("fill", (d) => color(d.data.label))
+            .on("mouseover", function (event, d) {
+              d3.select(this).transition().duration(300).attr("d", arcHover);
+            })
+            .on("mouseout", function (event, d) {
+              d3.select(this).transition().duration(300).attr("d", arc);
+            })
+            .on("click", function (event, d) {
+              const topFilms = d.data.films
+                .sort(
+                  (a, b) =>
+                    b.boxOffice - a.boxOffice || b.IMDBratings - a.IMDBratings
+                )
+                .slice(0, 3);
+
+              const infoBox = d3.select("#info-box2");
+              infoBox.style("display", "block").html(`
+                  <h2>${d.data.label}</h2>
+                  <div class="count">${d.data.value} films</div>
+                  <div class="films">
+                    ${topFilms
+                      .map(
+                        (film) => `
+                        <div class="film-item">
+                          <img src="${film.poster}" alt="${film.title}" />
+                          <div class="film-info">
+                            <div class="film-title">${film.title}</div>
+                            <div class="film-meta">Box Office: <span>$${film.boxOffice}</span></div>
+                            <div class="film-meta">IMDb: <span>${film.IMDBratings}</span></div>
+                          </div>
+                        </div>`
+                      )
+                      .join("")}
+                  </div>
+                `);
+            });
+
+          // Ajouter les pourcentages
+          arcs
+            .append("text")
+            .attr("transform", (d) => `translate(${arc.centroid(d)})`)
+            .attr("class", "percentage")
+            .text((d) => {
+              const percentage = Math.round(
+                (d.data.value / d3.sum(decadeData.map((d) => d.value))) * 100
+              );
+              return `${percentage}%`;
+            });
+
+          // Ajouter les labels des décennies
+          arcs
+            .append("text")
+            .attr("class", "decade-text")
+            .attr("transform", function (d) {
+              const [x, y] = arc.centroid(d);
+              const angle = (d.startAngle + d.endAngle) / 2;
+              const offset = 185;
+              const isOuter =
+                d.data.label === "Années 2020" ||
+                d.data.label === "Années 60, 70 et 80";
+              const xOffset = x * (1 + (isOuter ? offset / radius : 0));
+              const yOffset = y * (1 + (isOuter ? offset / radius : 0));
+
+              return `translate(${xOffset}, ${yOffset})`;
+            })
+            .text((d) => d.data.label)
+            .attr("dy", "25px")
+            .attr("dx", "0px")
+            .on("click", function (event, d) {
+              d3.select(this).style("cursor", "pointer");
+            });
+        })
+        .catch((error) =>
+          console.error("Erreur lors du chargement des données:", error)
+        );
+    </script>
+  </body>
+</html>
