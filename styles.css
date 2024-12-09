@@ -54,6 +54,19 @@ a.skip:focus {
 body {
   background: linear-gradient(to bottom, var(--rouge-foncé), #000000);
   margin: 0;
+  position: relative;
+}
+
+
+body::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 400px; 
+  background: linear-gradient(to bottom, #000000, var(--rouge-foncé));
+  z-index: -1; 
 }
 
 section {
@@ -123,7 +136,7 @@ section {
 
 .accueil .fleche {
   position: absolute;
-  bottom: 7%;
+  top: 82vh;
   left: 50%;
   transform: translate(-50%, 0);
   width: 100px;
@@ -294,7 +307,8 @@ h2 {
   max-width: 400px;
   text-decoration: none;
   color: #ffffff;
-  font-size: .8rem;
+  font-size: 1rem;
+  margin-bottom: 10px;
 }
 
 .movie-details {
@@ -355,19 +369,19 @@ h2 {
 .top {
   position: fixed;
   bottom: 5%;
-  right: 5%;
-  width: 5vh;
+  right: 4%;
+  width: 7vh;
   transition: all 0.2s ease-out;
 }
 
 .top:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
-/* page mentions légales */
+/* pages mentions légales et sources */
 
 .mentions {
-  padding: 0 15vw;
+  padding: 0 25vw;
   color: white;
 }
 
@@ -379,7 +393,7 @@ h2 {
   margin: 5rem auto;
   position: relative;
   gap: 10px;
-  width: 40vw;
+  width: 30vw;
 }
 
 .m_titre h1 {
@@ -388,7 +402,7 @@ h2 {
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--rouge-foncé);
-  font-size: 5vw;
+  font-size: 4.5vw;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
   margin: 0;
   text-align: center;
@@ -396,13 +410,93 @@ h2 {
   font-weight: normal;
 }
 
-p, ul, li {
+.m_titre .s-h1 {
+  font-size: 7vw;
+}
+
+.mentions p, ul, li {
   font-size: 1rem;
   line-height: 2;
   margin-bottom: 50px;
 }
 
+.mentions a {
+  color: var(--rouge-clair);
+  text-decoration: none;
+}
 
+.mentions a:hover {
+  text-decoration: underline;
+}
+
+
+.sources li {
+  margin: 1.5rem 0;
+}
+
+
+/* accordéon sources */
+
+.accordion-container {
+  width: 100%;
+  margin: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.accordion-item {
+  margin: 20px 0;
+  margin-bottom: 4rem;
+}
+
+.accordion-header {
+  background-color: var(--rouge-clair);
+  padding: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.accordion-body {
+  display: none;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  overflow-y: auto;
+  max-height: 400px;
+  border-radius: 10px;
+}
+
+.accordion-button {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+}
+
+.accordion-body a {
+  color: var(--rouge-foncé);
+  text-decoration: none;
+}
+
+.source-link-container {
+  border-radius: 10px;
+  border: var(--rouge-clair) 2px solid;
+  padding: 1rem;
+  text-align: center;
+  width: fit-content;
+  margin: 2rem auto;
+}
+
+.source-link-container a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
 
 
 /* section graphique 2 */
@@ -498,7 +592,7 @@ margin: auto;
   flex-wrap: wrap;  
   background-color: #62323264;
   border-radius: 20px;
-  padding: 3rem;
+  padding: 3vw;
   gap: 2.5rem;
   border: var(--rouge-moyen) 15px solid; 
   position: relative;
@@ -530,12 +624,13 @@ margin: auto;
   background-color: #62323264;
   border-radius: 20px;
   padding: 2rem;
-  gap: 4rem;
+  gap: 2rem;
 }
 
 .donnees h2 {
   text-align: right;
   margin-bottom: 0;
+  padding-top: 2rem;
 }
 
 .donnees .chq_annee {
@@ -577,10 +672,18 @@ margin: auto;
   color: white;
 }
 
+.flex-mde p {
+  text-align: center;
+}
+
 .chiffres-fr span {
   font-size: 7rem;
   font-family: sous-titre;
   color: white;
+}
+
+.donnees .chiffres-fr p {
+  max-width: 220px;
 }
 
 .counter {
@@ -599,6 +702,7 @@ margin: auto;
   color: white;
   margin: 0;
   padding: 0;
+  max-width: 300px;
 }
 
 .donnees .chiffre-flex {
@@ -613,6 +717,18 @@ margin: auto;
   padding: 0;
   width: fit-content;
 }
+
+@media (width<=1100px) {
+  .flex-mde span {
+    font-size: 8rem;
+  }
+  .chiffres-fr span {
+    font-size: 6rem;
+  }
+  .donnees p {
+    font-size: 1.1rem;
+  }
+}   
 
 
 
@@ -640,6 +756,7 @@ margin: auto;
   align-items: center;
   justify-content: center;
   gap: 5%;
+  padding-top: 2rem;
 }
 
 .graph3 svg {
@@ -753,6 +870,7 @@ margin: auto;
   border: var(--rouge-moyen) 2px solid;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .btn-styled:hover {
@@ -771,4 +889,67 @@ margin: auto;
     margin-left: 0;
     margin-top: 4rem;
   }
+}
+
+
+
+/* FOOTER */
+
+footer {
+  padding: 8rem 10vw;
+  padding-bottom: 0.5rem;
+  color: white;
+}
+
+footer a {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 1rem;
+  font-family: sous-titre;
+  font-weight: normal;
+  font-size: 2rem;
+  width: fit-content;
+}
+
+footer a::after, header a::after {
+  content: ""; 
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px; 
+  background-color: white;
+  transition: width 0.3s ease-in-out;
+}
+
+footer a:not(.active):hover::after, header a:hover::after {
+  width: 100%; 
+}
+
+footer p {
+  margin-top: 2rem;
+}
+
+footer .active {
+  text-decoration: underline;
+}
+
+
+header {
+  top: -30px;
+  position: absolute;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+  font-family: sous-titre;
+  font-weight: normal;
+  font-size: 3.5rem;
+  margin-left: 5vw;
+  display: block;
+  width: fit-content;
+  position: relative;
 }

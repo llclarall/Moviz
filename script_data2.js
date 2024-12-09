@@ -1076,7 +1076,7 @@ function saveEnrichedData(filmsData) {
 
 /* fonction  qui me crée un tableau d'objet avec 2 tableaux en entrée de mêmes tailles */
 
-/* function createObjectFromArrays(keys, values) {
+function createObjectFromArrays(keys, values) {
     // vérification pour s'assurer que les deux tableaux ont la même taille
     if (keys.length !== values.length) {
         throw new Error("Les deux tableaux doivent avoir la même longueur");
@@ -1088,10 +1088,30 @@ function saveEnrichedData(filmsData) {
     return result;
 }
 const result = createObjectFromArrays(imdbIds, AlloCineIds);
- */
+
+
 
 
 // Lancer le chargement des données et enrichir
 loadFilmsData("filmsData.json")
     .then(filmsData => getPostersAndTrailers(filmsData))
     .catch(error => console.error("Erreur générale :", error));
+
+
+
+/* vérifie la taille des fichiers JSON pour voir si j'ai bien les données pour mes 1000 films */
+fetch("filmsDataEnriched.json")
+.then((response) => {
+  if (!response.ok) {
+    throw new Error(`Erreur HTTP : ${response.status}`);
+  }
+  return response.json();
+})
+.then((films) => {
+  if (Array.isArray(films)) {
+    console.log(`Nombre d'objets dans le tableau : ${films.length}`);
+  } else {
+    console.error("Le contenu du fichier JSON n'est pas un tableau.");
+  }
+})
+.catch((err) => console.error("Erreur :", err));

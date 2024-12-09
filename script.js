@@ -1001,22 +1001,8 @@ tt1411704: 145542,
 tt1617661: 198721,
 };
 
-/* vérifie la taille des fichiers JSON pour voir si j'ai bien les données pour mes 1000 films */
-fetch("filmsDataEnriched.json")
-.then((response) => {
-  if (!response.ok) {
-    throw new Error(`Erreur HTTP : ${response.status}`);
-  }
-  return response.json();
-})
-.then((films) => {
-  if (Array.isArray(films)) {
-    console.log(`Nombre d'objets dans le tableau : ${films.length}`);
-  } else {
-    console.error("Le contenu du fichier JSON n'est pas un tableau.");
-  }
-})
-.catch((err) => console.error("Erreur :", err));
+document.addEventListener("DOMContentLoaded", function() {
+
 
 /* GRAPHIQUE 1 */
 
@@ -1046,8 +1032,9 @@ infoBox.innerHTML = `
   <div class="movie-info sono">
 <div class="poster-details">
   <img src="${poster}" alt="Affiche du film ${title}" class="movie-poster">
-  <a href="#" class="poster-link">https://www.allocine.fr/film/fichefilm_gen_cfilm=${allocineId}.html</a>
-</div>
+  <a href="sources.html?allocineId=${allocineId}#source-link-container" class="poster-link">
+        Voir la source
+      </a>
 <div class="movie-details">
   <h2>${title} <span>(${releaseDate})</span></h2>
   <p><strong>Réalisateur :</strong> ${director}</p>
@@ -1356,6 +1343,9 @@ fetch("./filmsDataEnriched.json")
   console.error("Erreur lors du chargement des données :", error)
 );
 
+
+
+
 /* GRAPHIQUE 2 */
 
 /* Script pour convertir mon fichier excel en un fichier json */
@@ -1463,7 +1453,7 @@ if (chart) {
 
 /* animation compteurs */
 
-document.addEventListener("DOMContentLoaded", () => {
+
 const counters = document.querySelectorAll(".counter");
 
 const animateCounter = (counter) => {
@@ -1500,7 +1490,6 @@ const observer = new IntersectionObserver(
 );
 
 counters.forEach((counter) => observer.observe(counter));
-});
 
 
 
@@ -1590,19 +1579,20 @@ fetch("filmsDataEnriched.json")
             const shuffled = [...films].sort(() => 0.5 - Math.random());
             return shuffled.slice(0, count);
           }
-        
+
           // Obtenir les 3 meilleurs films (par box-office ou IMDb ratings)
           const topFilms = d.data.films
             .sort((a, b) => b.boxOffice - a.boxOffice || b.IMDBratings - a.IMDBratings)
             .slice(0, 3);
-        
-          let displayedFilms = topFilms;
 
+          let displayedFilms = topFilms;
           let showingTopFilms = true;
-        
+
           // Fonction pour mettre à jour la boîte d'information
           function updateInfoBox() {
             const infoBox = d3.select("#info-box2");
+            const allocineId = new URLSearchParams(window.location.search).get('allocineId');
+
             infoBox.style("display", "block").html(`
               <h2>${d.data.label}</h2>
               <div class="count">${d.data.value} films</div>
@@ -1612,11 +1602,13 @@ fetch("filmsDataEnriched.json")
                   .map(
                     (film) => `
                     <div class="film-item">
-                      <img src="${film.poster}" alt="${film.title}" />
+                      <a href="sources.html?allocineId=${idAlloCine[film.imdb]}#source-link-container" title="voir la source de l'affiche">
+                        <img src="${film.poster || 'https://via.placeholder.com/150'}" alt="${film.title}" />
+                      </a>
                       <div class="film-info">
                         <div class="film-title">${film.title}</div>
-                        <div class="film-meta">Box Office: <span>$${film.boxOffice}</span></div>
-                        <div class="film-meta">IMDb: <span>${film.IMDBratings}</span></div>
+                        <div class="film-meta">Box Office: <span>${film.boxOffice ? '$' + film.boxOffice : 'N/A'}</span></div>
+                        <div class="film-meta">IMDb: <span>${film.IMDBratings || 'N/A'}</span></div>
                       </div>
                     </div>`
                   )
@@ -1624,19 +1616,18 @@ fetch("filmsDataEnriched.json")
               </div>
               <button id="generate-new" class="btn-styled">Voir 3 autres films</button>
             `);
-        
+
             document
               .querySelector("#generate-new")
               .addEventListener("click", () => {
                 displayedFilms = getRandomFilms(d.data.films);
-                showingTopFilms = false; 
+                showingTopFilms = false;
                 updateInfoBox();
               });
           }
-        
+
           updateInfoBox();
-        
-          document.querySelector("#info-box2").scrollIntoView({ behavior: "smooth" });
+          document.querySelector("#info-box2").scrollIntoView({ behavior: "smooth", block: "center" });
         });
     }
 
@@ -1645,7 +1636,6 @@ fetch("filmsDataEnriched.json")
       .append("path")
       .attr("d", arc)
       .style("fill", (d) => color(d.data.label));
-
 
     // Ajouter les pourcentages
     arcs
@@ -1658,7 +1648,6 @@ fetch("filmsDataEnriched.json")
         );
         return `${percentage}%`;
       });
-
 
     // Ajouter les labels des décennies
     arcs
@@ -1684,3 +1673,4 @@ fetch("filmsDataEnriched.json")
   .catch((error) =>
     console.error("Erreur lors du chargement des données:", error)
   );
+});
