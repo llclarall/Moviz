@@ -71,7 +71,7 @@ body::after {
 
 section {
   padding: 3rem 10vw;
-  /* min-height: 100vh; */
+  min-height: 100vh;
 }
 
 .accueil {
@@ -252,9 +252,14 @@ h2 {
   transform: scale(1.03);
 }
 
-.allGenres {
+.selected {
+  transform: scale(1.09);
   background-image: url(images/allGenres.png);
 }
+
+/* .allGenres {
+  background-image: url(images/allGenres.png);
+} */
 
 .graph-info {
   display: flex;
@@ -289,7 +294,7 @@ h2 {
 }
 
 .movie-poster {
-  width: 300px;
+  width: 280px;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.902);
@@ -520,6 +525,7 @@ h2 {
 .graph2 {
   margin-top: -5rem;
   padding-top: 0;
+  min-height: 100vh;
 }
 
 .graph2 .graph2-txt {
@@ -551,8 +557,7 @@ padding: 2rem;
 position: relative;
 width: 100%;
 max-width: 800px;
-margin: auto;
-
+margin-top: 3rem;
 }
 
 .graph2 .container {
@@ -629,8 +634,7 @@ margin: auto;
 
 .donnees h2 {
   text-align: right;
-  margin-bottom: 0;
-  padding-top: 2rem;
+  margin: 0;
 }
 
 .donnees .chq_annee {
@@ -740,6 +744,8 @@ margin: auto;
 
 .graph3 h2 {
   margin-bottom: 1rem;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .graph3 .span {
@@ -783,7 +789,7 @@ margin: auto;
   max-width: 500px;
   min-width: 350px;
   padding: 20px;
-  background-color: #fff;
+  background-color: #fff0db;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   display: none;
@@ -825,11 +831,10 @@ margin: auto;
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: transform 0.3s ease;
 }
 
-.info-box2 .film-item:hover {
-  transform: scale(1.01);
+.info-box2 img:hover {
+  transform: scale(1.02);
 }
 
 .info-box2 img {
@@ -837,6 +842,7 @@ margin: auto;
   height: 90px;
   object-fit: cover;
   border-radius: 5px;
+  transition: transform 0.3s ease;
 }
 
 .info-box2 .film-info {
@@ -847,12 +853,13 @@ margin: auto;
 
 .info-box2 .film-title {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1rem;
   margin-bottom: 5px;
 }
 
 .info-box2 .film-meta {
-  font-size: 14px;
+  font-size: 1rem;
+  font-weight: normal;
 }
 
 .info-box2 .film-meta span {
@@ -864,7 +871,7 @@ margin: auto;
   margin-top: 20px;
   padding: 10px 20px;
   background-color: var(--rouge-moyen); 
-  color: white; 
+  color: #fff0db; 
   font-size: 1rem;
   font-weight: bold;
   border: var(--rouge-moyen) 2px solid;
@@ -874,7 +881,7 @@ margin: auto;
 }
 
 .btn-styled:hover {
-  background-color: white; 
+  background-color: #fff0db; 
   color: var(--rouge-moyen);
   transform: scale(1.02);
 }
