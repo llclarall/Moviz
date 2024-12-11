@@ -1002,19 +1002,24 @@ tt1617661: 198721,
 };
 
 document.addEventListener("DOMContentLoaded", function () {
+
+
 /* GRAPHIQUE 1 */
 
 // Fonction pour afficher les infos du film
 function showInfo(film) {
   const infoBox = document.getElementById("info-box");
 
-  // Faire défiler la page pour afficher la boîte d'informations
-  if (infoBox) {
+// Faire défiler la page pour afficher la boîte d'informations
+if (window.innerWidth <= 1250 && infoBox) {
+  setTimeout(() => {
     const offset = window.innerHeight / 2 - infoBox.offsetHeight / 2 + 85;
     const position =
       infoBox.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top: position, behavior: "smooth" });
-  }
+  }, 100); // Délai de 100 ms
+}
+
 
   // Vérification des données disponibles
   const title = film.title || "Titre inconnu";
@@ -1321,7 +1326,7 @@ selectedGenres.forEach((genre) => {
 // Ajouter un bouton "Tous les genres"
 const allButton = document.createElement("button");
 allButton.textContent = "Tous les genres";
-allButton.setAttribute("class", "allGenres filtre selected");
+allButton.setAttribute("class", "allGenres filtre selected sono");
 
 allButton.addEventListener("click", () => {
   document.querySelectorAll(".filtre").forEach((btn) => {
@@ -1340,11 +1345,16 @@ buttonsContainer.appendChild(allButton);
 
     // Ajouter un événement de clic pour faire défiler jusqu'au graphique
     const scrollToChart = () => {
-      const chartElement = document.getElementById("graph1");
-      if (chartElement) {
-        chartElement.scrollIntoView({ behavior: "smooth" });
+      if (window.innerWidth <= 1250) {
+        const chartElement = document.getElementById("graph1");
+        if (chartElement) {
+          const yOffset = 50; // Décalage en pixels
+          const yPosition = chartElement.getBoundingClientRect().top + window.scrollY + yOffset;
+          window.scrollTo({ top: yPosition, behavior: "smooth" });
+        }
       }
     };
+
 
     // Ajouter l'événement de clic pour chaque bouton de genre
     buttonsContainer.querySelectorAll("button").forEach((button) => {
@@ -1685,9 +1695,13 @@ fetch("filmsDataEnriched.json")
           }
 
           updateInfoBox();
-          document
+
+          if (window.innerWidth <= 1250) {
+        document
             .querySelector("#info-box2")
             .scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
         });
     }
 
@@ -1717,14 +1731,14 @@ fetch("filmsDataEnriched.json")
         const [x, y] = arc.centroid(d);
         const offset = 185;
         const isOuter =
-          d.data.label === "Années 2020" ||
-          d.data.label === "Années 60, 70 et 80";
+          d.data.label === "Années 2020" || 
+          d.data.label === "Années 60, 70 et 80"; 
         const xOffset = x * (1 + (isOuter ? offset / radius : 0));
         const yOffset = y * (1 + (isOuter ? offset / radius : 0));
         return `translate(${xOffset}, ${yOffset})`;
       })
-      .attr("dy", "25px")
-      .attr("dx", "0px")
+      .attr("dy", "20px")
+      .attr("dx", "-2px")
       .text((d) => d.data.label);
 
     // Appliquer les événements aux arcs

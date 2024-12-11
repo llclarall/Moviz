@@ -40,6 +40,8 @@ a.skip:focus {
 @font-face {
     font-family: 'sous-titre';
     src: url('polices/go_2_old_western/Go\ 2\ Old\ Western.woff'),
+          url('polices/go_2_old_western/Go\ 2\ Old\ Western.woff2');
+
 }
 
 .sono {
@@ -171,6 +173,23 @@ h2 {
   margin-bottom: 0;
 }
 
+.graph1 h3 {
+  font-size: 2rem;
+  font-family: "sous-titre", sans-serif;
+  font-weight: normal;
+  color: var(--rouge-clair);
+  display: block;
+  margin: 1rem 0;
+}
+
+.graph1 p {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 800px;
+  margin: 0;
+}
+
 .graphique {
   padding-bottom: 7rem;
 }
@@ -231,8 +250,9 @@ h2 {
   justify-content: space-between;
   max-width: 800px;
   gap: 15px;
-  margin-top: 20px;
   height: fit-content;
+  position: relative;
+  bottom: 1rem;
 }
 
 .filtre {
@@ -250,6 +270,20 @@ h2 {
 
 .filtre:hover {
   transform: scale(1.03);
+}
+
+.graph1 .source {
+  font-size: .9rem;
+  font-weight: bold;
+  color: white;  
+  position: relative;
+  bottom: 2.5rem;
+  text-align: center;
+}
+
+.graph1 .source a {
+  color: var(--rouge-clair);
+  text-decoration: none;
 }
 
 .selected {
@@ -271,7 +305,6 @@ h2 {
 /* info-box du 1er graphique */
 
 .info-box {
-  font-family: 'Arial', sans-serif;
   color: #ffffff;
   max-width: 800px;
   margin: 0 auto;
@@ -516,7 +549,7 @@ h2 {
 
 .graph2 h3 {
   font-size: 2.5rem;
-  font-family: sous-titre;
+  font-family: "sous-titre", sans-serif;
   font-weight: normal;
   margin-bottom: 0;
   padding: 1rem;
@@ -583,6 +616,19 @@ margin-top: 3rem;
 
 
 
+.graph2 .source {
+  font-size: .9rem;
+  font-weight: bold;
+  color: white;  
+}
+
+.graph2 .source a {
+  color: var(--rouge-clair);
+  text-decoration: none;
+}
+
+
+
 
 /* section chiffres */
 
@@ -601,6 +647,16 @@ margin-top: 3rem;
   gap: 2.5rem;
   border: var(--rouge-moyen) 15px solid; 
   position: relative;
+}
+
+.donnees .source {
+  font-size: .9rem;
+  font-weight: bold;
+  color: white;  
+}
+
+.source a:hover {
+  text-decoration: underline;
 }
 
 .chiffres::before {
@@ -641,7 +697,7 @@ margin-top: 3rem;
   font-size: 4vw;
   color: white;
   text-align: right;
-  font-family: sous-titre;
+  font-family: "sous-titre", sans-serif;
   font-weight: normal;
   color: var(--rouge-clair);
   margin-top: 0;
@@ -650,7 +706,7 @@ margin-top: 3rem;
 
 .donnees h3:not(.chq_annee) {
   color: var(--rouge-clair);
-  font-family: sous-titre;
+  font-family: "sous-titre", sans-serif;
   font-weight: normal;
   font-size: 3rem;
   margin: 0;
@@ -672,7 +728,7 @@ margin-top: 3rem;
 
 .flex-mde span {
   font-size: 9rem;
-  font-family: sous-titre;
+  font-family: "sous-titre", sans-serif;
   color: white;
 }
 
@@ -682,7 +738,7 @@ margin-top: 3rem;
 
 .chiffres-fr span {
   font-size: 7rem;
-  font-family: sous-titre;
+  font-family: "sous-titre", sans-serif;
   color: white;
 }
 
@@ -748,13 +804,22 @@ margin-top: 3rem;
   padding-top: 0;
 }
 
-.graph3 .span {
+.graph3 p {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 800px;
+  margin: 0;
+  padding-bottom: 7rem;
+
+}
+
+.graph3 h3 {
   font-size: 2rem;
-  font-family: sous-titre;
+  font-family: "sous-titre", sans-serif;
   font-weight: normal;
   color: var(--rouge-clair);
-  padding-bottom: 7rem;
-  display: block;
+  margin: 1rem 0;
 }
 
 .chart-container {
@@ -762,7 +827,8 @@ margin-top: 3rem;
   align-items: center;
   justify-content: center;
   gap: 5%;
-  padding-top: 2rem;
+  position: relative;
+  bottom: 1rem;
 }
 
 .graph3 svg {
@@ -770,15 +836,28 @@ margin-top: 3rem;
   cursor: pointer;
 }
 
+.graph3 .source {
+  font-size: .9rem;
+  font-weight: bold;
+  color: white;  
+  max-width: 200px;
+  display: block;
+}
+
+.source a {
+  color: var(--rouge-clair);
+  text-decoration: none;
+}
+
 .percentage {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: bold;
   fill: #fff;
   text-anchor: middle;
 }
 
 .decade-text {
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: bold;
   fill: #ffffff;
   text-anchor: middle;
@@ -896,6 +975,9 @@ margin-top: 3rem;
     margin-left: 0;
     margin-top: 4rem;
   }
+  .source {
+    margin-top: 2rem;
+  }
 }
 
 
@@ -914,7 +996,7 @@ footer a {
   text-decoration: none;
   display: block;
   margin-bottom: 1rem;
-  font-family: sous-titre;
+  font-family: "sous-titre", sans-serif;
   font-weight: normal;
   font-size: 2rem;
   width: fit-content;
@@ -952,7 +1034,7 @@ header {
 header a {
   color: white;
   text-decoration: none;
-  font-family: sous-titre;
+  font-family: "sous-titre", sans-serif;
   font-weight: normal;
   font-size: 3.5rem;
   margin-left: 5vw;
