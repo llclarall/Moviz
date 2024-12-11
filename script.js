@@ -1747,4 +1747,31 @@ fetch("filmsDataEnriched.json")
   .catch((error) =>
     console.error("Erreur lors du chargement des données:", error)
   );
+
+
+/* NAV */
+
+const navDots = document.querySelectorAll(".nav-dot");
+const sections = document.querySelectorAll("section");
+
+window.addEventListener("scroll", () => {
+let current = "";
+
+sections.forEach(section => {
+  const sectionTop = section.offsetTop - 100; // Ajustez selon vos besoins
+  if (window.scrollY >= sectionTop) {
+    current = section.getAttribute("id");
+  }
+});
+
+navDots.forEach(dot => {
+  dot.classList.remove("active");
+  if (dot.getAttribute("href") === `#${current}`) {
+    dot.classList.add("active");
+  }
+});
+});
+
+
+
 });
