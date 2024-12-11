@@ -15,7 +15,21 @@
 
 
 <body class="sono">
+	<!-- page loader -->
+	<div id="loader" class="loader">
+		<img src="images/logo.svg" alt="">
+<!-- 		<div class="spinner"></div>
+ -->	  </div>
+
+	<!-- pop up données -->
+	<div id="popup-notice" class="popup-notice">
+		<p>Nous respectons votre vie privée. Aucune donnée n'est collectée lors de votre navigation.</p>
+		<button id="close-popup" class="close-popup">Fermer</button>
+	  </div>	  
+
+	<!-- skip link -->
 	<a href="#content" class="skip">Aller au contenu</a>
+
 <div class="accueil" id="accueil">
 	<div class="titre">
 		<img src="images/logo.svg" alt="" class="logo">
@@ -45,7 +59,7 @@
 </nav>
 
 
-<section class="donnees" id="content">
+<section class="donnees" id="content" style="display: none;">
 	<h2>Le cinéma en quelques données</h2> <br>
 	<h3 class="chq_annee">Combien de films chaque année ?</h3>
 

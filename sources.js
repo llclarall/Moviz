@@ -1062,4 +1062,15 @@ accordionHeader.addEventListener("click", function () {
 });
 })
 .catch(error => console.error('Erreur lors du chargement du fichier JSON:', error));
+
+
+document.querySelectorAll('.accordion-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !isExpanded);
+    });
+  });
+  
+
+
 });

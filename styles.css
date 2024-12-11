@@ -425,6 +425,12 @@ h2 {
   color: white;
 }
 
+.mentions strong {
+  display: inline-block;
+  margin-bottom: .5rem;
+  font-size: 1.1rem;
+}
+
 .m_titre img {
   width: 100%;
   display: block;
@@ -489,13 +495,26 @@ h2 {
   margin-bottom: 4rem;
 }
 
+/* Style de base pour l'icône */
+.accordion-icon {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 1.3rem;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.accordion-button[aria-expanded="true"] .accordion-icon {
+  transform: rotate(180deg);
+}
+
 .accordion-header {
-  background-color: var(--rouge-clair);
+  background-color: var(--rouge-moyen);
   padding: 10px;
   cursor: pointer;
   text-align: left;
   font-weight: bold;
   border-radius: 10px;
+  transition: all 0.2s ease;
 }
 
 .accordion-body {
@@ -516,6 +535,9 @@ h2 {
   font-size: 16px;
   cursor: pointer;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .accordion-body a {
@@ -537,6 +559,24 @@ h2 {
   text-decoration: none;
   font-weight: bold;
 }
+
+/* Style de base pour l'icône */
+.accordion-icon {
+  display: inline-block;
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+}
+
+/* Lorsque l'accordéon est ouvert, l'icône pivote */
+.accordion-button[aria-expanded="true"] .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-header:hover {
+  background-color: var(--rouge-clair);
+}
+
+
 
 
 /* section graphique 2 */
@@ -1055,7 +1095,7 @@ header a {
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
   z-index: 1000;
 }
 
@@ -1064,9 +1104,9 @@ header a {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
-  background-color: white;
+  width: 45px;
+  height: 45px;
+  background-color: #fff0db;
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
@@ -1075,8 +1115,8 @@ header a {
 }
 
 .nav-icon img {
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.6rem;
+  height: 1.6rem;
   transition: transform 0.3s ease;
 }
 
@@ -1104,3 +1144,92 @@ position: absolute !important;
 width: 1px !important;
 white-space: nowrap !important;
 }
+
+
+/* POP UP DONNEES */
+
+.popup-notice {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  max-width: 280px;
+  padding: 15px;
+  background-color: #f4f4f4;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  font-size: .9rem;
+  font-weight: bold;
+  color: var(--rouge-foncé);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease-in-out;
+}
+
+.popup-notice p {
+  margin-top: 2px;
+}
+
+.popup-notice.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.close-popup {
+  margin-top: 10px;
+  background-color: var(--rouge-foncé);
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  font-size: .9rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease-in-out;
+}
+
+.close-popup:hover {
+  background-color: var(--rouge-moyen);
+}
+
+
+
+/* PAGE LOADER */
+
+/* Style du loader */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--rouge-foncé); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Spinner circulaire */
+.loader img {
+  width: 100px;
+  height: 100px;
+ /*  border: 5px solid var(--rouge-moyen); 
+  border-top: 5px solid var(--rouge-clair);
+  border-radius: 50%; */
+  animation: spin 2s linear infinite;
+}
+
+/* Animation de rotation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+

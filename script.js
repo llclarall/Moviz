@@ -1749,6 +1749,7 @@ fetch("filmsDataEnriched.json")
   );
 
 
+
 /* NAV */
 
 const navDots = document.querySelectorAll(".nav-dot");
@@ -1774,4 +1775,38 @@ navDots.forEach(dot => {
 
 
 
+/* pop up données */
+
+const popup = document.getElementById("popup-notice");
+const closeButton = document.getElementById("close-popup");
+
+// Vérifier si l'utilisateur a déjà fermé le pop-up
+const popupDismissed = localStorage.getItem("popupDismissed");
+
+if (!popupDismissed) {
+  setTimeout(() => {
+    popup.classList.add("show");
+  }, 200); 
+}
+
+closeButton.addEventListener("click", () => {
+  popup.classList.remove("show");
+  localStorage.setItem("popupDismissed", "true");
 });
+
+
+
+/* page loader */
+
+const loader = document.getElementById("loader");
+const content = document.getElementById("content");
+
+setTimeout(() => {
+  loader.style.display = "none"; 
+  content.style.display = "block"; 
+}, 1000); 
+
+
+});
+
+
