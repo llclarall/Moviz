@@ -1017,7 +1017,7 @@ if (window.innerWidth <= 1250 && infoBox) {
     const position =
       infoBox.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top: position, behavior: "smooth" });
-  }, 100); // Délai de 100 ms
+  }, 100); 
 }
 
 
@@ -1026,7 +1026,7 @@ if (window.innerWidth <= 1250 && infoBox) {
   const releaseDate = film.releaseDate || "Année inconnue";
   const director = film.director || "Réalisateur inconnu";
   const plot = film.plot || "Résumé non disponible.";
-  const poster = film.poster || "https://via.placeholder.com/150"; // Image par défaut si pas de poster
+  const poster = film.poster || "https://via.placeholder.com/150"; // image par défaut si pas de poster
   const boxOffice = film.boxOffice || "Données non disponibles";
   const allocineId = idAlloCine[film.imdb] || "ID non disponible";
 
@@ -1060,9 +1060,8 @@ function filterByGenre(films, selectedGenre) {
 <text x="560" y="520" class="axis-label">750M</text>
 <text x="760" y="520" class="axis-label">1000M</text>
 <text x="350" y="550" class="axis-label">Revenus bruts (en $)</text>
-`; // Nettoyer le SVG avant de redessiner mais garder les axes
+`; // nettoyer le SVG avant de redessiner mais garder les axes
 
-  // Filtrer les films par genre si un genre est sélectionné
   let filteredFilms = [];
 
   // Filtrer les films qui correspondent au genre sélectionné
@@ -1084,8 +1083,7 @@ function filterByGenre(films, selectedGenre) {
   // Prendre les 5 premiers films
   filteredFilms = filteredFilms.slice(0, 5);
 
-  // Redessiner les barres pour les films filtrés
-  let yPosition = 70; // Position verticale initiale
+  let yPosition = 70;
 
   filteredFilms.forEach((film) => {
     // Nettoyer et convertir les revenus en nombre
@@ -1108,12 +1106,23 @@ function filterByGenre(films, selectedGenre) {
     );
     bar.setAttribute("x", 15);
     bar.setAttribute("y", yPosition + 1);
-    bar.setAttribute("width", 0); // Initialement à 0 pour l'animation
+    bar.setAttribute("width", 0); 
     bar.setAttribute("height", 37);
+    bar.setAttribute("fill", "#4e2825");
+    bar.setAttribute("rx", "2");
     bar.setAttribute("class", "bar");
     bar.style.cursor = "pointer";
     bar.addEventListener("click", () => {
       showInfo(film);
+    });
+    bar.addEventListener("mouseover", () => {
+      bar.setAttribute("fill", "#8F332f");
+      bar.setAttribute("width", barWidth + 10); 
+      bar.style.transition = "all .5s";
+    });
+    bar.addEventListener("mouseout", () => {
+      bar.setAttribute("fill", "#4e2825");
+      bar.setAttribute("width", barWidth); 
     });
     svg.appendChild(bar);
 
@@ -1123,7 +1132,7 @@ function filterByGenre(films, selectedGenre) {
 
     // Ajouter les stripes à la barre
     const stripeHeight = 27;
-    const stripeWidth = 11;
+    const stripeWidth = 12;
     const gap = 8;
 
     for (let i = 0; i < Math.floor(barWidth / (stripeWidth + gap)); i++) {
@@ -1141,6 +1150,17 @@ function filterByGenre(films, selectedGenre) {
       stripe.addEventListener("click", () => {
         showInfo(film);
       });
+      stripe.addEventListener("mouseover", () => {
+        bar.setAttribute("fill", "#8F332f"); 
+        bar.setAttribute("width", barWidth + 10);
+        bar.style.transition = "fill 1s";
+        bar.style.transition = "width .5s";
+      });
+      stripe.addEventListener("mouseout", () => {
+        bar.setAttribute("fill", "#4e2825");
+        bar.setAttribute("width", barWidth);
+      });
+
       svg.appendChild(stripe);
 
       setTimeout(() => {
@@ -1148,6 +1168,8 @@ function filterByGenre(films, selectedGenre) {
         stripe.setAttribute("x", 25 + i * (stripeWidth + gap));
       }, 10);
     }
+
+
     const cassetteWidth = 220;
 
     // Ajouter la cassette
@@ -1202,7 +1224,6 @@ function filterByGenre(films, selectedGenre) {
     middleDetail.setAttribute("class", "cassette-etiquette");
     svg.appendChild(middleDetail);
 
-    // Largeur maximale de l'étiquette
     const maxWidth = 150;
 
     // Ajouter le texte de la cassette
@@ -1210,8 +1231,8 @@ function filterByGenre(films, selectedGenre) {
       "http://www.w3.org/2000/svg",
       "text"
     );
-    label.setAttribute("x", 110); // Position initiale
-    label.setAttribute("y", yPosition + 24); // Position verticale initiale
+    label.setAttribute("x", 110); 
+    label.setAttribute("y", yPosition + 24); 
     label.setAttribute("class", "cassette-label");
     label.style.cursor = "pointer";
     label.addEventListener("click", () => {
@@ -1223,7 +1244,7 @@ function filterByGenre(films, selectedGenre) {
     let currentLine = "";
     let lines = [];
 
-    // SVG ne peut pas mesurer directement les mots avant leur ajout, donc on utilise un élément temporaire
+
     const tempText = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "text"
@@ -1246,28 +1267,23 @@ function filterByGenre(films, selectedGenre) {
       }
     });
 
-    // Ajouter la dernière ligne
     if (currentLine) lines.push(currentLine);
 
-    // Supprimer l'élément temporaire
     svg.removeChild(tempText);
 
-    // Ajouter les lignes au label avec des tspan
     lines.forEach((line, index) => {
       const tspan = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "tspan"
       );
-      tspan.setAttribute("x", 120); // Garder la position horizontale fixe
-      tspan.setAttribute("dy", index === 0 ? 0 : 16); // Décalage vertical entre les lignes (16 px ici)
+      tspan.setAttribute("x", 120);
+      tspan.setAttribute("dy", index === 0 ? 0 : 16); 
       tspan.textContent = line;
       label.appendChild(tspan);
     });
 
-    // Ajouter le label au SVG
     svg.appendChild(label);
 
-    // Augmenter la position verticale pour le prochain film
     yPosition += 90;
   });
 }
@@ -1343,33 +1359,35 @@ buttonsContainer.appendChild(allButton);
 
 
 
-    // Ajouter un événement de clic pour faire défiler jusqu'au graphique
-    const scrollToChart = () => {
-      if (window.innerWidth <= 1250) {
-        const chartElement = document.getElementById("graph1");
-        if (chartElement) {
-          const yOffset = 50; // Décalage en pixels
-          const yPosition = chartElement.getBoundingClientRect().top + window.scrollY + yOffset;
-          window.scrollTo({ top: yPosition, behavior: "smooth" });
-        }
-      }
-    };
+// Ajouter un événement de clic pour faire défiler jusqu'au graphique
+const scrollToChart = () => {
+  if (window.innerWidth <= 1250) {
+    const chartElement = document.getElementById("graph1");
+    if (chartElement) {
+      const yOffset = 50; // Décalage en pixels
+      const yPosition = chartElement.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: yPosition, behavior: "smooth" });
+    }
+  }
+};
 
 
-    // Ajouter l'événement de clic pour chaque bouton de genre
-    buttonsContainer.querySelectorAll("button").forEach((button) => {
-      button.addEventListener("click", scrollToChart);
-    });
+// Ajouter l'événement de clic pour chaque bouton de genre
+buttonsContainer.querySelectorAll("button").forEach((button) => {
+  button.addEventListener("click", scrollToChart);
+});
 
-    // Afficher les 5 meilleurs de tous les genres au début
-    filterByGenre(films, null);
-  })
-  .catch((error) => {
-    console.error(
-      "Erreur lors du chargement ou du traitement des données :",
-      error
-    );
-  });
+// Afficher les 5 meilleurs de tous les genres au début
+filterByGenre(films, null);
+})
+.catch((error) => {
+console.error(
+  "Erreur lors du chargement ou du traitement des données :",
+  error
+);
+});
+
+
 fetch("./filmsDataEnriched.json")
   .then((response) => response.json())
   .then((data) => console.log(data))
@@ -1607,6 +1625,45 @@ fetch("filmsDataEnriched.json")
       .append("g")
       .attr("class", "arc");
 
+      /* Afficher un 'plus' qd on hover sur le camembert pour comprendre que c'est cliquable */
+    const plusSign = svg
+    .append("text")
+    .style("fill", "#ffffff")
+    .style("font-weight", "bold")
+    .style("font-size", "2rem")
+    .style("pointer-events", "none")
+    .style("text-anchor", "middle")
+    .style("opacity", 0)
+    .style("text-shadow", "2px 2px 4px rgba(0, 0, 0, 0.5)")
+    .text("+");
+
+    const circle = svg
+      .append("circle")
+      .attr("r", 15)
+      .style("fill", "none")
+      .style("stroke", "#ffffff")
+      .style("stroke-width", 2)
+      .style("transform", "translateY(-6px)")
+      .style("pointer-events", "none")
+      .style("opacity", 0);
+
+    svg
+      .on("mouseover", function () {
+      plusSign.style("opacity", 1);
+      circle.style("opacity", 1);
+      })
+      .on("mousemove", function (event) {
+      const [x, y] = d3.pointer(event);
+      plusSign.attr("x", x + 15).attr("y", y);
+      circle.attr("cx", x + 15).attr("cy", y - 3);
+      })
+      .on("mouseout", function () {
+      plusSign.style("opacity", 0);
+      circle.style("opacity", 0);
+      });
+
+    
+
     // Fonction pour gérer les événements
     function handleEvents(selection) {
       selection
@@ -1705,6 +1762,7 @@ fetch("filmsDataEnriched.json")
         });
     }
 
+
     // Dessiner les arcs
     arcs
       .append("path")
@@ -1747,6 +1805,9 @@ fetch("filmsDataEnriched.json")
   .catch((error) =>
     console.error("Erreur lors du chargement des données:", error)
   );
+
+
+
 
 
 

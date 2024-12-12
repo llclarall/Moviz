@@ -195,10 +195,10 @@ h2 {
 .graphique {
   padding-bottom: 7rem;
 }
-
-.bar {
+ 
+/*.bar {
   fill: #4e2825;
-}
+} */
 
 .cassette-body {
   fill: #8d453a;
@@ -1230,6 +1230,7 @@ white-space: nowrap !important;
     transform: rotate(360deg);
   }
 }
+
 
 
 
