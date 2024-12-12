@@ -122,7 +122,7 @@ section {
   margin: 0;
   padding: 0;
   width: 25%;
-  animation: rotate-logo 2s infinite;
+  animation: rotate-logo 2s infinite, rotateLogo 4s;
 }
 
 @keyframes rotate-logo {
@@ -377,7 +377,7 @@ h2 {
 }
 
 
-@media (max-width: 1400px) {
+@media (max-width: 1600px) {
   .movie-info {
       flex-direction: column;
       align-items: center; 
@@ -1241,5 +1241,41 @@ white-space: nowrap !important;
 .fade-in.visible {
   opacity: 1;
 }
+
+
+/* Animation de rotation du logo */
+@keyframes rotateLogo {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(356deg);
+  }
+}
+
+/* Animation du bounce pour le titre */
+@keyframes bounceIn {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  20% {
+    transform: translateY(20px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+/* Appliquer l'animation bounce au titre */
+.titre h1 {
+  animation: bounceIn 3s ease-out forwards;
+}
+
 
 
