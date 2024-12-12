@@ -1868,6 +1868,24 @@ setTimeout(() => {
 }, 1000); 
 
 
+
+function checkVisibility() {
+  const elements = document.querySelectorAll('.fade-in');
+  elements.forEach(element => {
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    if (rect.top <= windowHeight * 0.8 && rect.bottom >= 0) {
+      element.classList.add('visible');
+    }
+  });
+}
+
+window.addEventListener('scroll', checkVisibility);
+
+document.addEventListener('DOMContentLoaded', checkVisibility);
+
+
 });
 
 
