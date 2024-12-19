@@ -1041,7 +1041,7 @@ if (window.innerWidth <= 1250 && infoBox) {
   <h2>${title} <span>(${releaseDate})</span></h2>
   <p><strong>Réalisateur :</strong> ${director}</p>
   <p><strong>Revenus bruts :</strong> ${boxOffice} $</p>
-  <p><strong>Résumé :</strong> ${plot}</p>
+  <p lang="en"><strong>Résumé :</strong> ${plot}</p>
 </div>
 </div>
 `;
